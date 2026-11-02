@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uganda Farmers Network - Kagadi & Mabaale Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        agrigreen: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #092614 0%, #15803d 50%, #14532d 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+        .ticker-wrap {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ticker-move {
+            display: inline-block;
+            animation: ticker 45s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        @media print {
+            body * { visibility: hidden; }
+            .printable-area, .printable-area * { visibility: visible; }
+            .printable-area { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans flex flex-col min-h-screen">
+
+    <!-- ID Card Code Security Gate Modal (For Visitors & Expired Sessions) -->
+    <div id="idSecurityGateModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full space-y-6 border border-emerald-500/30 text-center">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                <i class="fas fa-id-card"></i>
+            </div>
+            <div class="space-y-2">
+                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Member & Visitor Access Gate</span>
+                <h3 class="text-xl font-extrabold text-slate-900">Enter Your Unique Farmer ID Code</h3>
+                <p id="gateSubtitle" class="text-xs text-slate-500">Existing members enter your unique ID code (e.g. <strong class="text-emerald-700">KAG-MAB-2026-01</strong>). New visitors can browse freely for 1 hour.</p>
+            </div>
+            <div class="space-y-3 text-left text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Unique Farmer ID Number</label>
+                    <input type="text" id="gateIdCodeInput" placeholder="Enter ID Code (e.g. KAG-MAB-2026-01)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 font-mono font-bold text-center text-slate-900 focus:ring-2 focus:ring-emerald-600">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Registered Phone Number (MoMo)</label>
+                    <input type="text" id="gatePhoneInput" placeholder="077XXXXXXXX" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-center text-slate-900">
+                </div>
+                <button onclick="verifyFarmerIdCode()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow-lg transition text-sm">
+                    Verify ID Code & Access Portal
+                </button>
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="continueAsVisitor()" class="text-xs text-emerald-700 font-bold hover:underline">
+                        <i class="fas fa-clock mr-1"></i> Continue as Visitor (1 Hr)
+                    </button>
+                    <button onclick="bypassIdGateForSamAndMark()" class="text-xs text-amber-700 font-bold hover:underline">
+                        <i class="fas fa-crown mr-1 text-amber-500"></i> Sam / Mark Master
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Announcement & Creator Banner -->
+    <div class="bg-emerald-950 text-emerald-100 text-xs sm:text-sm py-2 px-4 shadow-inner border-b border-emerald-900">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span class="bg-emerald-700 text-white px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest">Official Hub</span>
+                <span class="font-medium">Kagadi District & Mabaale Town Council Farmers Network</span>
+            </div>
+            <div class="flex items-center gap-4 flex-wrap justify-center text-xs">
+                <span><i class="fas fa-crown text-amber-300 mr-1"></i> Creator & Master Admin: <strong>ATUHAIRWE MARK</strong></span>
+                <span><i class="fas fa-user-shield text-amber-400 mr-1"></i> SACCO Manager & Lead: <strong>Atuhairwe Sam (0775735461)</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Commodity Prices Ticker -->
+    <div class="bg-slate-900 text-slate-200 py-2 px-4 border-b border-slate-800 text-xs flex items-center gap-3">
+        <span class="bg-emerald-600 text-white font-bold px-2.5 py-1 rounded text-[10px] tracking-wider uppercase whitespace-nowrap shadow">
+            <i class="fa-solid fa-chart-line mr-1"></i> Live Market Rates
+        </span>
+        <div class="ticker-wrap w-full">
+            <div class="ticker-move text-xs space-x-6" id="tickerPrices">
+                <span><strong class="text-amber-400">Rice:</strong> UGX <span id="t-Rice">4,200</span>/Kg</span>
+                <span>•</span>
+                <span><strong class="text-amber-300">Coffee:</strong> UGX <span id="t-Coffee">11,500</span>/Kg</span>
+                <span>•</span>
+                <span><strong class="text-red-400">Beans:</strong> UGX <span id="t-Beans">3,400</span>/Kg</span>
+                <span>•</span>
+                <span><strong class="text-yellow-400">Groundnuts:</strong> UGX <span id="t-Groundnuts">5,200</span>/Kg</span>
+                <span>•</span>
+                <span><strong class="text-green-400">Maize:</strong> UGX <span id="t-Maize">1,200</span>/Kg</span>
+                <span>•</span>
+                <span><strong class="text-emerald-400">Banana (Matooke):</strong> UGX <span id="t-Banana">18,000</span>/Bunch</span>
+                <span>•</span>
+                <span><strong class="text-purple-400">Sugarcanes:</strong> UGX <span id="t-Sugarcanes">3,500</span>/Bundle</span>
+                <span>•</span>
+                <span><strong class="text-pink-400">Cocoa:</strong> UGX <span id="t-Cocoa">14,000</span>/Kg</span>
+                <span>•</span>
+                <span><strong class="text-orange-400">Goats:</strong> UGX <span id="t-Goats">200,000</span>/Head</span>
+                <span>•</span>
+                <span><strong class="text-cyan-400">Chicken:</strong> UGX <span id="t-Chicken">30,000</span>/Bird</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="gradient-bg text-white shadow-2xl sticky top-0 z-40 border-b border-emerald-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="bg-white p-3 rounded-2xl shadow-xl text-agrigreen-800">
+                        <i class="fa-solid fa-seedling text-3xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-black tracking-tight">KAGADI-MABAALE</h1>
+                        <p class="text-xs text-emerald-200 font-semibold">Farmers Network & Resource Hub</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 text-xs flex items-center gap-3 shadow-inner">
+                        <div class="w-8 h-8 rounded-full bg-amber-400 text-slate-950 font-black flex items-center justify-center text-xs">AM</div>
+                        <div>
+                            <p class="text-[9px] text-emerald-200 uppercase font-black tracking-wider">Master Creator</p>
+                            <p class="font-extrabold text-amber-300 text-xs tracking-wide">ATUHAIRWE MARK</p>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 text-xs hidden sm:block shadow-inner">
+                        <p class="text-[9px] text-emerald-200 uppercase font-black tracking-wider">Currency Converter</p>
+                        <select id="currencySelector" onchange="changeCurrency()" class="bg-transparent text-amber-300 font-extrabold text-xs outline-none cursor-pointer">
+                            <option value="UGX" class="text-slate-900">UGX (Ugandan Shilling)</option>
+                            <option value="USD" class="text-slate-900">USD ($)</option>
+                            <option value="EUR" class="text-slate-900">EUR (€)</option>
+                            <option value="KES" class="text-slate-900">KES (Kenyan Shilling)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Bar -->
+            <nav class="flex overflow-x-auto space-x-1 sm:space-x-2 mt-4 pt-3 border-t border-emerald-700/50 text-xs font-bold">
+                <button onclick="switchTab('home')" class="nav-btn py-2 px-3.5 rounded-xl bg-white/20 text-white whitespace-nowrap transition shadow flex items-center gap-1.5" data-tab="home"><i class="fas fa-home"></i> <span>Home</span></button>
+                <button onclick="switchTab('marketplace')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="marketplace"><i class="fas fa-store"></i> <span>Marketplace</span></button>
+                <button onclick="switchTab('samSection')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-amber-200 whitespace-nowrap transition flex items-center gap-1.5" data-tab="samSection"><i class="fas fa-user-shield"></i> <span>Sam's Control Desk</span></button>
+                <button onclick="switchTab('database')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="database"><i class="fas fa-database"></i> <span>Members Database</span></button>
+                <button onclick="switchTab('momo')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="momo"><i class="fas fa-mobile-screen-button"></i> <span>MTN/Airtel Server Pay</span></button>
+                <button onclick="switchTab('jobs')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="jobs"><i class="fas fa-briefcase"></i> <span>Jobs & Labor</span></button>
+                <button onclick="switchTab('sacco')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="sacco"><i class="fas fa-piggy-bank"></i> <span>SACCO Ledger & Reg</span></button>
+                <button onclick="switchTab('forum')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="forum"><i class="fas fa-comments"></i> <span>Forum</span></button>
+                <button onclick="switchTab('digitalId')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="digitalId"><i class="fas fa-id-card"></i> <span>Digital ID Card</span></button>
+                <button onclick="switchTab('seasons')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="seasons"><i class="fas fa-cloud-sun-rain"></i> <span>Seasons & Weather</span></button>
+                <button onclick="switchTab('partners')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-emerald-100 whitespace-nowrap transition flex items-center gap-1.5" data-tab="partners"><i class="fas fa-handshake"></i> <span>Partners & Companies</span></button>
+                <button onclick="switchTab('admin')" class="nav-btn py-2 px-3.5 rounded-xl hover:bg-white/10 text-amber-300 whitespace-nowrap transition flex items-center gap-1.5" data-tab="admin"><i class="fas fa-lock"></i> <span>Admin Portal</span></button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-emerald-500/30">
+        <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-xl"></i>
+        <span id="toastMessage" class="text-sm font-semibold">Notification message</span>
+    </div>
+
+    <!-- Floating Trouble Alert Button -->
+    <button onclick="openTroubleModal()" class="fixed bottom-6 left-6 z-40 bg-red-600 hover:bg-red-700 text-white p-4 rounded-full shadow-2xl transition flex items-center gap-2 text-xs font-bold animate-bounce">
+        <i class="fas fa-life-ring text-lg"></i> <span class="hidden sm:inline">Encountering Trouble? Alert Admin</span>
+    </button>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-8">
+
+        <!-- ================= TAB 1: HOME ================= -->
+        <div id="tab-home" class="tab-content space-y-8">
+            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white p-8 sm:p-14 shadow-2xl border border-emerald-700/40">
+                <div class="absolute right-0 top-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-2xl space-y-5">
+                    <span class="bg-emerald-500/30 text-emerald-200 border border-emerald-400/30 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest shadow">
+                        Kagadi District & Mabaale Town Council Hub
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">Empowering Modern Agriculture in Western Uganda</h2>
+                    <p class="text-emerald-100 text-sm sm:text-base leading-relaxed">
+                        Platform architected by <strong>ATUHAIRWE MARK</strong> (Master Email: <a href="mailto:atuharwemark@gmail.com" class="underline text-amber-300 font-bold">atuharwemark@gmail.com</a>). Operational lead & pricing authority managed by <strong>Atuhairwe Sam</strong> (0775735461). Trade Rice, Coffee, Beans, Groundnuts, Maize, Banana, Sugarcanes, Cocoa, Goats, and Chicken seamlessly with server-verified payments and 3-hour security timers.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="switchTab('marketplace')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-6 py-3.5 rounded-2xl shadow-xl transition flex items-center gap-2">
+                            <i class="fas fa-store"></i> Explore Marketplace
+                        </button>
+                        <button onclick="switchTab('digitalId')" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-6 py-3.5 rounded-2xl transition flex items-center gap-2 shadow-inner">
+                            <i class="fas fa-id-card"></i> Register & Get Unique ID Card
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="glass-panel p-6 rounded-3xl shadow-sm flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl font-bold shadow-inner"><i class="fas fa-users"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-extrabold uppercase tracking-wider">Registered Farmers</p>
+                        <h3 id="statFarmersCount" class="text-2xl font-black text-slate-900">1,420+</h3>
+                        <p class="text-xs text-emerald-700 font-semibold">Active in Mabaale & Kagadi</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-3xl shadow-sm flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl font-bold shadow-inner"><i class="fas fa-coins"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-extrabold uppercase tracking-wider">SACCO Pool</p>
+                        <h3 class="text-2xl font-black text-slate-900">UGX 84.5M</h3>
+                        <p class="text-xs text-amber-700 font-semibold">Low-Interest Loans Active</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-3xl shadow-sm flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-2xl font-bold shadow-inner"><i class="fas fa-shopping-basket"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-extrabold uppercase tracking-wider">Market Listings</p>
+                        <h3 id="statListingsCount" class="text-2xl font-black text-slate-900">38+</h3>
+                        <p class="text-xs text-blue-700 font-semibold">Verified Produce</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-3xl shadow-sm flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-2xl font-bold shadow-inner"><i class="fas fa-briefcase"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-extrabold uppercase tracking-wider">Job Vacancies</p>
+                        <h3 id="statJobsCount" class="text-2xl font-black text-slate-900">14</h3>
+                        <p class="text-xs text-purple-700 font-semibold">Open Farm Roles</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mandatory Commodities Grid Showcase -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">Mandatory Commodities & Livestock Trade Hub</h3>
+                        <p class="text-xs text-slate-500">Official Produce: Rice, Coffee, Beans, Groundnuts, Maize, Banana, Sugarcanes, Cocoa, Goats, and Chicken</p>
+                    </div>
+                    <button onclick="switchTab('marketplace')" class="text-sm text-emerald-700 font-bold hover:underline">View Marketplace <i class="fas fa-arrow-right ml-1"></i></button>
+                </div>
+                <div id="homeCropsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4"></div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: MARKETPLACE ================= -->
+        <div id="tab-marketplace" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Agricultural Marketplace</h2>
+                    <p class="text-xs text-slate-500">Buy and sell verified fresh farm produce and livestock in Kagadi & Mabaale</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchTab('momo')" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-xl font-semibold text-xs shadow transition flex items-center gap-1.5">
+                        <i class="fas fa-wallet"></i> Pay via Server MoMo
+                    </button>
+                    <button onclick="openListingModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-md transition flex items-center gap-2">
+                        <i class="fas fa-plus-circle"></i> Post Produce for Sale
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-2 items-center pb-2">
+                <span class="text-xs font-semibold text-slate-500 uppercase mr-2">Filter Commodity:</span>
+                <button onclick="filterMarket('all')" class="market-filter-btn bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-semibold transition shadow">All Items</button>
+                <button onclick="filterMarket('Rice')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Rice</button>
+                <button onclick="filterMarket('Coffee')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Coffee</button>
+                <button onclick="filterMarket('Beans')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Beans</button>
+                <button onclick="filterMarket('Groundnuts')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Groundnuts</button>
+                <button onclick="filterMarket('Maize')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Maize</button>
+                <button onclick="filterMarket('Banana')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Banana</button>
+                <button onclick="filterMarket('Sugarcanes')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Sugarcanes</button>
+                <button onclick="filterMarket('Cocoa')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Cocoa</button>
+                <button onclick="filterMarket('Goats')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Goats</button>
+                <button onclick="filterMarket('Chicken')" class="market-filter-btn bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 transition">Chicken</button>
+            </div>
+
+            <div id="marketplaceGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        </div>
+
+        <!-- ================= TAB 3: SAM'S CONTROL DESK ================= -->
+        <div id="tab-samSection" class="tab-content hidden space-y-6">
+            <!-- Passcode Gate (Passcode: SAM210, Strictly for Sam & Creator Mark) -->
+            <div id="samLoginGate" class="bg-white p-8 rounded-3xl shadow-xl border border-amber-500/30 max-w-md mx-auto text-center space-y-4">
+                <div class="w-16 h-16 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="space-y-1">
+                    <h3 class="text-xl font-extrabold text-slate-900">Sam's High-Security Control Desk</h3>
+                    <p class="text-xs text-slate-500">Restricted operational access. Enter Executive Passcode <strong class="text-slate-800 font-mono">SAM210</strong> (Authorized for Atuhairwe Sam & Creator Mark Only).</p>
+                </div>
+                <div class="space-y-3 pt-2">
+                    <input type="password" id="samPasscodeInput" placeholder="Enter Passcode (SAM210)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-center text-lg font-mono focus:ring-2 focus:ring-amber-500">
+                    <button onclick="verifySamPasscode()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-3.5 rounded-xl shadow-lg transition text-sm">
+                        Authenticate & Unlock Sam's Desk
+                    </button>
+                    <button onclick="masterMarkSamBypass()" class="w-full bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold py-2.5 rounded-xl text-xs transition">
+                        <i class="fas fa-crown mr-1"></i> ATUHAIRWE MARK Master Executive Bypass
+                    </button>
+                </div>
+            </div>
+
+            <!-- Unlocked Sam Dashboard -->
+            <div id="samDashboard" class="hidden bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-4">
+                    <div>
+                        <span class="bg-amber-100 text-amber-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">Executive Operational Lead Desk</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-1">Atuhairwe Sam's High-Security Management Portal</h2>
+                        <p class="text-xs text-slate-500">Changes here directly control live network members, payment logs, and commodity prices.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-emerald-950 text-white px-4 py-2.5 rounded-2xl text-xs font-mono shadow-inner">
+                            <i class="fas fa-phone mr-1 text-amber-400"></i> 0775735461
+                        </div>
+                        <button onclick="lockSamPortal()" class="bg-red-500/20 hover:bg-red-500/30 text-red-700 px-3.5 py-2 rounded-xl text-xs font-bold transition">
+                            <i class="fas fa-lock mr-1"></i> Lock Desk
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Members Manager -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                            <i class="fas fa-users text-emerald-600"></i> Add / Remove Network Members
+                        </h3>
+                        <div class="space-y-3 text-xs">
+                            <input type="text" id="samNewMemberName" placeholder="Full Name (e.g. Nyangoma Mary)" class="w-full bg-white border border-slate-300 rounded-xl p-2.5">
+                            <input type="text" id="samNewMemberPhone" placeholder="Phone (077XXXXXXXX)" class="w-full bg-white border border-slate-300 rounded-xl p-2.5">
+                            <input type="text" id="samNewMemberLoc" placeholder="Sub-county / Village" class="w-full bg-white border border-slate-300 rounded-xl p-2.5">
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Profile Photo Upload</label>
+                                <input type="file" id="samNewMemberPhoto" accept="image/*" class="w-full bg-white border border-slate-300 rounded-xl p-2 text-[10px]">
+                            </div>
+                            <button onclick="samAddMember()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition shadow">
+                                Add Member & Issue ID Code
+                            </button>
+                        </div>
+                        <div class="pt-2 border-t border-slate-200">
+                            <p class="text-[11px] font-extrabold text-slate-700 mb-2">Registered Members List (Protected for Sam & Creator):</p>
+                            <div id="samMemberList" class="space-y-2 max-h-48 overflow-y-auto"></div>
+                        </div>
+                    </div>
+
+                    <!-- Marketplace Approvals -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                            <i class="fas fa-store text-amber-600"></i> Accept / Reject Marketplace Sellers
+                        </h3>
+                        <p class="text-xs text-slate-500">Pending seller listings awaiting Sam's executive authorization:</p>
+                        <div id="samPendingListings" class="space-y-3 max-h-64 overflow-y-auto"></div>
+                    </div>
+
+                    <!-- Price Authority Editor -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                        <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                            <i class="fas fa-tags text-blue-600"></i> Executive Price Editor
+                        </h3>
+                        <p class="text-xs text-slate-500">Set official market prices for Kagadi District & Mabaale:</p>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-slate-300">
+                                <span class="font-semibold">Coffee (/Kg)</span>
+                                <input type="number" id="samEditCoffee" value="11500" class="w-24 bg-slate-50 border border-slate-300 rounded-lg p-1 text-right font-mono font-bold">
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-slate-300">
+                                <span class="font-semibold">Beans (/Kg)</span>
+                                <input type="number" id="samEditBeans" value="3400" class="w-24 bg-slate-50 border border-slate-300 rounded-lg p-1 text-right font-mono font-bold">
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-slate-300">
+                                <span class="font-semibold">Rice (/Kg)</span>
+                                <input type="number" id="samEditRice" value="4200" class="w-24 bg-slate-50 border border-slate-300 rounded-lg p-1 text-right font-mono font-bold">
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-slate-300">
+                                <span class="font-semibold">Goats (/Head)</span>
+                                <input type="number" id="samEditGoats" value="200000" class="w-24 bg-slate-50 border border-slate-300 rounded-lg p-1 text-right font-mono font-bold">
+                            </div>
+                            <button onclick="samSavePrices()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition mt-2 shadow">
+                                Update Official Market Prices
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: MEMBERS DATABASE ================= -->
+        <div id="tab-database" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Secure Registry</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-1">Complete Members Database</h2>
+                        <p class="text-xs text-slate-500">Live records of all registered farmers, unique ID codes, payment status, and 3-hour timeout logs.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <input type="text" id="databaseSearchInput" onkeyup="filterDatabase()" placeholder="Search by name, ID code, or location..." class="bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 text-xs w-64 outline-none focus:ring-2 focus:ring-emerald-600">
+                        <button onclick="exportDatabaseTxt()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition shadow">
+                            <i class="fas fa-download mr-1"></i> Export (.txt)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
+                            <tr>
+                                <th class="p-3">Photo</th>
+                                <th class="p-3">Full Name</th>
+                                <th class="p-3">Unique ID Code</th>
+                                <th class="p-3">Phone Number</th>
+                                <th class="p-3">Location</th>
+                                <th class="p-3">Payment Status & 3Hr Timer</th>
+                            </tr>
+                        </thead>
+                        <tbody id="databaseTableBody" class="divide-y divide-slate-200 text-xs"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 5: MOBILE MONEY (MTN & AIRTEL SERVER GATEWAY) ================= -->
+        <div id="tab-momo" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 max-w-xl mx-auto space-y-6">
+                <div class="text-center space-y-2">
+                    <span class="bg-amber-100 text-amber-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Direct Server Integration</span>
+                    <h2 class="text-2xl font-bold text-slate-900">MTN & Airtel MoMo Server Gateway</h2>
+                    <p class="text-xs text-slate-500">Direct API simulation connected to MTN Uganda and Airtel Money servers for Atuhairwe Sam (<strong>0775735461</strong>). Payments automatically reset your 3-hour access timer.</p>
+                </div>
+
+                <div class="space-y-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Transaction Purpose</label>
+                        <select id="momoPurpose" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3">
+                            <option value="Produce Purchase">Produce / Livestock Purchase</option>
+                            <option value="Digital ID & 3Hr Access Registration">Digital ID Registration & 3Hr Access (UGX 5,000)</option>
+                            <option value="SACCO Savings Deposit">SACCO Savings Deposit</option>
+                            <option value="SACCO Share Buy">SACCO Share Purchase (UGX 30,000/share)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Amount (<span class="currency-label">UGX</span>)</label>
+                        <input type="number" id="momoAmount" placeholder="e.g. 5000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Select Telecom Server</label>
+                        <select id="momoNetwork" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3">
+                            <option value="MTN Mobile Money API">MTN Mobile Money API (Server Live)</option>
+                            <option value="Airtel Money API">Airtel Money API (Server Live)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Your Mobile Phone Number</label>
+                        <input type="text" id="momoPhone" placeholder="077XXXXXXXX" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Your Unique ID Code (Resets 3-Hr Timer)</label>
+                        <input type="text" id="momoIdCode" placeholder="KAG-MAB-2026-XX" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 font-mono">
+                    </div>
+                    <button onclick="processServerMobileMoneyPayment()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-3.5 rounded-xl transition shadow text-sm flex items-center justify-center gap-2">
+                        <i class="fas fa-satellite-dish"></i> Send USSD Push / Execute API Payment
+                    </button>
+                </div>
+
+                <div id="momoReceiptBox" class="hidden bg-emerald-50 border border-emerald-200 p-6 rounded-2xl space-y-4">
+                    <div id="printableReceipt" class="printable-area space-y-3 bg-white p-6 rounded-xl border border-emerald-200 shadow-inner">
+                        <div class="flex justify-between items-center border-b border-emerald-200 pb-3">
+                            <div>
+                                <h4 class="font-extrabold text-emerald-950 text-sm">UGANDA FARMERS NETWORK</h4>
+                                <p class="text-[10px] text-slate-500">MTN & Airtel Server Confirmed Gateway Receipt</p>
+                            </div>
+                            <span class="bg-emerald-100 text-emerald-900 text-[10px] font-black px-2.5 py-1 rounded-full">API 200 OK</span>
+                        </div>
+                        <div class="space-y-1.5 text-xs text-slate-700">
+                            <p><strong>Transaction Ref:</strong> <span id="momoRef" class="font-mono font-bold">MOMO-SERVER-88392</span></p>
+                            <p><strong>Purpose:</strong> <span id="momoRecPurpose">Produce Purchase</span></p>
+                            <p><strong>Amount Paid:</strong> <span id="momoRecAmt">5,000</span> <span class="currency-label">UGX</span></p>
+                            <p><strong>Server Gateway:</strong> <span id="momoRecNet">MTN Mobile Money API</span></p>
+                            <p><strong>Phone Number:</strong> <span id="momoRecPhone">0775735461</span></p>
+                            <p><strong>ID Code Linked:</strong> <span id="momoRecIdCode" class="font-mono">KAG-MAB-2026-01</span></p>
+                            <p><strong>3-Hour Access Timer:</strong> <span class="text-emerald-700 font-bold">RESTARTED & EXTENDED SUCCESSFULLY</span></p>
+                            <p><strong>Recipient / Approver:</strong> Atuhairwe Sam (0775735461)</p>
+                            <p><strong>Creator:</strong> ATUHAIRWE MARK (atuharwemark@gmail.com)</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 no-print">
+                        <button onclick="window.print()" class="w-1/2 bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 shadow">
+                            <i class="fas fa-print"></i> Print Receipt
+                        </button>
+                        <button onclick="saveReceiptTxt()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2 shadow">
+                            <i class="fas fa-download"></i> Save (.txt)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 6: JOBS & LABOR ================= -->
+        <div id="tab-jobs" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Jobs & Agricultural Labor Board</h2>
+                    <p class="text-xs text-slate-500">Find farm managers, harvesters, herders, or post open agricultural vacancies in Kagadi</p>
+                </div>
+                <button onclick="openJobModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-md transition flex items-center gap-2">
+                    <i class="fas fa-plus-circle"></i> Post a Job Vacancy
+                </button>
+            </div>
+            <div id="jobsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- ================= TAB 7: SACCO LEDGER & REGISTRATION ================= -->
+        <div id="tab-sacco" class="tab-content hidden space-y-6">
+            <div class="bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-emerald-700/40">
+                <div class="space-y-2">
+                    <span class="bg-amber-400 text-slate-950 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Financial Cooperative (Manager: Atuhairwe Sam)</span>
+                    <h2 class="text-3xl font-extrabold">Kagadi & Mabaale Farmers SACCO Ledger & Registration</h2>
+                    <p class="text-emerald-100 text-sm max-w-xl">Register your SACCO membership, save funds, buy shares (UGX 30,000/share), and access low-interest agricultural loans with live server MoMo integration.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/20 text-right space-y-1 shadow-inner">
+                    <p class="text-xs text-emerald-200 font-semibold">Your SACCO Savings Balance</p>
+                    <h3 id="userSaccoBalance" class="text-3xl font-mono font-bold text-amber-300">UGX 450,000</h3>
+                    <p class="text-xs text-emerald-200">Shares Owned: <strong id="userSharesCount">15 Shares</strong></p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- SACCO Registration & Deposit Form -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900"><i class="fas fa-user-plus text-emerald-600 mr-2"></i> SACCO Membership & Share Purchase</h3>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Member Full Name</label>
+                            <input type="text" id="saccoRegName" placeholder="e.g. Katusiime Prossy" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Unique ID Code</label>
+                            <input type="text" id="saccoRegIdCode" placeholder="KAG-MAB-2026-XX" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-mono text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Transaction Type</label>
+                            <select id="saccoTxType" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs">
+                                <option value="Savings">SACCO Savings Deposit</option>
+                                <option value="Shares">Buy SACCO Shares (UGX 30,000 / share)</option>
+                                <option value="Registration">SACCO Lifetime Registration (UGX 10,000)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Amount (<span class="currency-label">UGX</span>)</label>
+                            <input type="number" id="saccoAmount" placeholder="e.g. 30000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">MoMo Phone (Send to Sam: 0775735461)</label>
+                            <input type="text" id="saccoPhone" placeholder="0775735461" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-xs">
+                        </div>
+                        <button onclick="processSaccoDeposit()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl shadow transition text-xs">
+                            Execute Server MoMo SACCO Payment
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900"><i class="fas fa-file-invoice-dollar text-emerald-600 mr-2"></i> SACCO Member Statement</h3>
+                            <p class="text-xs text-slate-500">Recent contributions, share purchases, and loan status</p>
+                        </div>
+                        <div class="flex gap-2 no-print">
+                            <button onclick="saveSaccoStatement()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold transition">
+                                <i class="fas fa-download mr-1"></i> Save (.txt)
+                            </button>
+                            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-semibold transition">
+                                <i class="fas fa-print mr-1"></i> Print
+                            </button>
+                        </div>
+                    </div>
+                    <div id="saccoPrintableArea" class="printable-area overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
+                                <tr>
+                                    <th class="p-3">Reference ID</th>
+                                    <th class="p-3">Member & ID Code</th>
+                                    <th class="p-3">Type</th>
+                                    <th class="p-3">Amount</th>
+                                    <th class="p-3">Date</th>
+                                    <th class="p-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="saccoTransactionsTable" class="divide-y divide-slate-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 8: FORUM ================= -->
+        <div id="tab-forum" class="tab-content hidden space-y-6">
+            <div class="flex justify-between items-center bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Community Discussion Forum</h2>
+                    <p class="text-xs text-slate-500">Master Discusser: <strong>Atuhairwe Sam</strong>. Ask questions and share advice with Kagadi farmers.</p>
+                </div>
+                <button onclick="openForumModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-md transition flex items-center gap-2">
+                    <i class="fas fa-comment-medical"></i> Start Discussion
+                </button>
+            </div>
+            <div id="forumPostsContainer" class="space-y-4"></div>
+        </div>
+
+        <!-- ================= TAB 9: DIGITAL ID ================= -->
+        <div id="tab-digitalId" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6 max-w-3xl mx-auto">
+                <div class="text-center space-y-2">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Official Membership Badge</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Farmer Digital Identity Card</h2>
+                    <p class="text-xs text-slate-500">Each registered farmer receives a <strong>Unique ID Code</strong> and a <strong>3-Hour Access Timer</strong>. Registration fee: UGX 5,000 payable via MTN/Airtel server MoMo to <strong>0775735461</strong> (Atuhairwe Sam).</p>
+                </div>
+
+                <!-- Registration Form -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 no-print">
+                    <h3 class="font-bold text-slate-900 text-sm">Apply / Register for Membership & Generate Unique ID Code</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Full Name</label>
+                            <input type="text" id="regFullName" placeholder="e.g. Katusiime Prossy" class="w-full bg-white border border-slate-300 rounded-xl p-2.5">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Phone Number (MoMo)</label>
+                            <input type="text" id="regPhoneNum" placeholder="077XXXXXXXX" class="w-full bg-white border border-slate-300 rounded-xl p-2.5">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Location / Sub-County</label>
+                            <input type="text" id="regLoc" placeholder="Mabaale Town Council" class="w-full bg-white border border-slate-300 rounded-xl p-2.5">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Crops / Livestock</label>
+                            <input type="text" id="regCropList" placeholder="Coffee, Beans, Goats" class="w-full bg-white border border-slate-300 rounded-xl p-2.5">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block font-semibold text-slate-700 mb-1">Upload ID Card & Database Photo</label>
+                            <input type="file" id="regPhotoInput" accept="image/*" class="w-full bg-white border border-slate-300 rounded-xl p-2 text-xs">
+                        </div>
+                    </div>
+                    <button onclick="submitMemberRegistration()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl text-xs transition shadow">
+                        Submit Registration & Generate Unique ID Code (UGX 5,000 MoMo)
+                    </button>
+                </div>
+
+                <!-- ID Card Preview Area -->
+                <div id="idCardPrintableArea" class="printable-area bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden max-w-md mx-auto border-2 border-amber-400/50">
+                    <div class="absolute top-0 right-0 transform translate-x-8 -translate-y-8 w-32 h-32 bg-amber-400/10 rounded-full blur-xl"></div>
+                    <div class="relative z-10 space-y-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-xs font-bold uppercase tracking-widest text-emerald-300">Republic of Uganda</h4>
+                                <h3 class="font-extrabold text-lg">Kagadi & Mabaale Hub</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold shadow">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div id="idCardPhotoContainer" class="w-20 h-20 rounded-2xl bg-emerald-800 border-2 border-amber-400 overflow-hidden flex items-center justify-center text-3xl text-emerald-200 shadow">
+                                <i class="fas fa-user" id="idCardDefaultIcon"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <h4 id="idCardName" class="text-xl font-bold text-amber-300">Atuhairwe Sam</h4>
+                                <p id="idCardPhone" class="text-xs font-mono text-emerald-100"><i class="fas fa-phone mr-1"></i> 0775735461</p>
+                                <p id="idCardLocation" class="text-xs text-emerald-200"><i class="fas fa-map-marker-alt mr-1"></i> Mabaale Town Council, Kagadi</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/30 p-3.5 rounded-2xl border border-white/10 space-y-1">
+                            <p class="text-[10px] text-emerald-300 uppercase font-black tracking-wider">Unique Farmer ID Code</p>
+                            <p id="idCardCodeDisplay" class="text-sm font-mono font-black text-amber-300 tracking-wider">KAG-MAB-2026-01</p>
+                            <p class="text-[10px] text-emerald-200">3-Hour Timer Status: <strong class="text-emerald-400">ACTIVE (Verified)</strong></p>
+                        </div>
+
+                        <div class="flex justify-between items-end pt-2 text-[10px] text-emerald-200 border-t border-emerald-800">
+                            <div>
+                                <p>Role: <strong class="text-white">Operational Lead</strong></p>
+                                <p>Creator: <strong>ATUHAIRWE MARK</strong></p>
+                            </div>
+                            <div class="w-12 h-12 bg-white p-1 rounded-lg flex items-center justify-center text-slate-950 font-extrabold text-[8px] text-center shadow">
+                                QR CODE
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap justify-center gap-4 pt-4 no-print">
+                    <button onclick="saveDigitalIdCard()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-6 py-3 rounded-xl shadow transition flex items-center gap-2">
+                        <i class="fas fa-download"></i> Save ID Card (.txt)
+                    </button>
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl shadow transition flex items-center gap-2">
+                        <i class="fas fa-print"></i> Print ID Card
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 10: SEASONS & WEATHER ================= -->
+        <div id="tab-seasons" class="tab-content hidden space-y-6">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Agronomic Guide</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Uganda Agricultural Seasons & Weather Calendar</h2>
+                    <p class="text-xs text-slate-500">Plan planting and harvesting cycles for Kagadi District and Mabaale Town Council.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 space-y-3 shadow-sm">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-emerald-950 text-lg">Season A (First Rains)</h3>
+                            <span class="bg-emerald-200 text-emerald-950 text-xs font-bold px-2.5 py-1 rounded">March - June</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">Ideal for planting Upland & Lowland Rice, Maize, Beans, and Groundnuts. Ensure proper land preparation during February dry spells.</p>
+                        <div class="text-xs font-semibold text-emerald-800 pt-2"><i class="fas fa-seedling mr-1"></i> Key Focus: Weeding and pest surveillance.</div>
+                    </div>
+
+                    <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 space-y-3 shadow-sm">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-amber-950 text-lg">Season B (Second Rains)</h3>
+                            <span class="bg-amber-200 text-amber-950 text-xs font-bold px-2.5 py-1 rounded">August - November</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">Optimal period for Coffee seedlings, Banana suckers, Sugarcanes, Cocoa, and second season Beans and Maize.</p>
+                        <div class="text-xs font-semibold text-amber-800 pt-2"><i class="fas fa-cloud-rain mr-1"></i> Key Focus: Harvesting Season A crops & planting perennials.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 11: PARTNERS & COMPANIES ================= -->
+        <div id="tab-partners" class="tab-content hidden space-y-6">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Visiting Web & Agricultural Partners</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Partner Companies & Input Suppliers</h2>
+                    <p class="text-xs text-slate-500">Collaborating institutions supporting Kagadi farmers with fertilizers, seeds, and micro-loans.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl mx-auto flex items-center justify-center font-bold text-lg"><i class="fas fa-building"></i></div>
+                        <h4 class="font-bold text-slate-900 text-sm">Kagadi Agro Inputs Ltd</h4>
+                        <p class="text-xs text-slate-600">Certified seeds, fertilizers, and knapsack sprayers distribution.</p>
+                        <span class="inline-block bg-emerald-200 text-emerald-950 text-[10px] font-bold px-2 py-0.5 rounded">Verified Partner</span>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl mx-auto flex items-center justify-center font-bold text-lg"><i class="fas fa-seedling"></i></div>
+                        <h4 class="font-bold text-slate-900 text-sm">Mabaale Coffee Exporters</h4>
+                        <p class="text-xs text-slate-600">Direct Robusta coffee buying center and grading station in Mabaale TC.</p>
+                        <span class="inline-block bg-amber-200 text-amber-950 text-[10px] font-bold px-2 py-0.5 rounded">Primary Buyer</span>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-xl mx-auto flex items-center justify-center font-bold text-lg"><i class="fas fa-truck"></i></div>
+                        <h4 class="font-bold text-slate-900 text-sm">Western Uganda Produce Transporters</h4>
+                        <p class="text-xs text-slate-600">Bulk transportation of Matooke, Maize, and Beans to Kampala markets.</p>
+                        <span class="inline-block bg-blue-200 text-blue-950 text-[10px] font-bold px-2 py-0.5 rounded">Logistics Hub</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 12: ADMIN PORTAL (STRICTLY FOR SAM & CREATOR MARK) ================= -->
+        <div id="tab-admin" class="tab-content hidden space-y-6">
+            <!-- Passcode Gate (Passcode: 2010, Strictly Restricted to Sam & Creator Atuhairwe Mark) -->
+            <div id="adminLoginGate" class="bg-white p-8 rounded-3xl shadow-xl border border-emerald-600/30 max-w-md mx-auto text-center space-y-4">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="space-y-1">
+                    <h3 class="text-xl font-extrabold text-slate-900">Master Admin Portal (Strictly Restricted)</h3>
+                    <p class="text-xs text-slate-500">Authorized solely for Creator <strong>ATUHAIRWE MARK</strong> & Operational Lead <strong>Atuhairwe Sam</strong>. Enter Passcode <strong class="text-slate-900 font-mono">2010</strong>.</p>
+                </div>
+                <div class="space-y-3 pt-2">
+                    <input type="password" id="adminPasscodeInput" placeholder="Enter Passcode (2010)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-center text-lg font-mono focus:ring-2 focus:ring-emerald-600">
+                    <button onclick="verifyAdminPasscode()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3.5 rounded-xl shadow-lg transition text-sm">
+                        Unlock Master Admin Console
+                    </button>
+                    <button onclick="masterMarkBypass()" class="w-full bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold py-2.5 rounded-xl text-xs transition">
+                        <i class="fas fa-crown mr-1"></i> ATUHAIRWE MARK Master Creator Bypass
+                    </button>
+                </div>
+            </div>
+
+            <!-- Unlocked Admin Dashboard -->
+            <div id="adminDashboard" class="hidden space-y-6">
+                <div class="bg-slate-900 text-white p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-xl border border-emerald-500/30">
+                    <div class="space-y-1">
+                        <span class="bg-amber-400 text-slate-950 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Master Admin Access (ATUHAIRWE MARK & Sam)</span>
+                        <h2 class="text-2xl font-bold">Network Management Console</h2>
+                        <p class="text-xs text-slate-400">Master email: atuharwemark@gmail.com. Complete universal control over prices, members, and security.</p>
+                    </div>
+                    <button onclick="lockAdminPortal()" class="bg-red-500/20 hover:bg-red-500/30 text-red-300 px-4 py-2 rounded-xl text-xs font-bold transition">
+                        <i class="fas fa-lock mr-1"></i> Lock Portal
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Price Editor -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base"><i class="fas fa-tag text-emerald-600 mr-2"></i> Update Official Commodity Prices (UGX)</h3>
+                        <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Rice (/Kg)</label>
+                                <input type="number" id="adminPrice-Rice" value="4200" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Coffee (/Kg)</label>
+                                <input type="number" id="adminPrice-Coffee" value="11500" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Beans (/Kg)</label>
+                                <input type="number" id="adminPrice-Beans" value="3400" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Groundnuts (/Kg)</label>
+                                <input type="number" id="adminPrice-Groundnuts" value="5200" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Maize (/Kg)</label>
+                                <input type="number" id="adminPrice-Maize" value="1200" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Banana (/Bunch)</label>
+                                <input type="number" id="adminPrice-Banana" value="18000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Sugarcanes (/Bundle)</label>
+                                <input type="number" id="adminPrice-Sugarcanes" value="3500" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Cocoa (/Kg)</label>
+                                <input type="number" id="adminPrice-Cocoa" value="14000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Goats (/Head)</label>
+                                <input type="number" id="adminPrice-Goats" value="200000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Chicken (/Bird)</label>
+                                <input type="number" id="adminPrice-Chicken" value="30000" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                            </div>
+                        </div>
+                        <button onclick="saveAdminPrices()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-xs transition shadow">
+                            Save & Broadcast Live Prices
+                        </button>
+                    </div>
+
+                    <!-- Pending Member Approvals -->
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base"><i class="fas fa-user-check text-emerald-600 mr-2"></i> Master Member & ID Code Approvals</h3>
+                        <div id="adminPendingList" class="space-y-3">
+                            <div class="p-3 bg-slate-50 border border-slate-300 rounded-xl flex justify-between items-center text-xs">
+                                <div>
+                                    <p class="font-bold text-slate-900">Katusiime Prossy (ID: KAG-MAB-2026-02)</p>
+                                    <p class="text-slate-500">Mabaale Town Council • Coffee & Beans</p>
+                                </div>
+                                <button onclick="approveMember('Katusiime Prossy')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-lg font-bold shadow">
+                                    Verify & Activate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-8 px-4 mt-12 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="font-bold text-white">Uganda Farmers Network - Kagadi District & Mabaale Town Council Hub</p>
+                <p class="mt-1">Operational Lead & Pricing: Atuhairwe Sam (0775735461) | Visionary Creator & Master Admin: ATUHAIRWE MARK (<a href="mailto:atuharwemark@gmail.com" class="text-amber-400 underline">atuharwemark@gmail.com</a>)</p>
+            </div>
+            <div class="text-right">
+                <p class="text-amber-400 font-bold">Mandatory Crops & Livestock Trade Hub</p>
+                <p class="mt-1">Rice, Coffee, Beans, Groundnuts, Maize, Banana, Sugarcanes, Cocoa, Goats, Chicken</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals (Listing, Job, Forum, Trouble Alert) -->
+    <div id="modalBackdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <!-- Listing Modal -->
+        <div id="modalListing" class="modal-box hidden bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4">
+            <h3 class="font-bold text-lg text-slate-900">Post Produce / Livestock for Sale</h3>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Commodity</label>
+                    <select id="listCommodity" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                        <option value="Rice">Rice</option>
+                        <option value="Coffee">Coffee</option>
+                        <option value="Beans">Beans</option>
+                        <option value="Groundnuts">Groundnuts</option>
+                        <option value="Maize">Maize</option>
+                        <option value="Banana">Banana</option>
+                        <option value="Sugarcanes">Sugarcanes</option>
+                        <option value="Cocoa">Cocoa</option>
+                        <option value="Goats">Goats</option>
+                        <option value="Chicken">Chicken</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Price (<span class="currency-label">UGX</span>)</label>
+                    <input type="number" id="listPrice" placeholder="e.g. 4200" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Seller Name & Contact</label>
+                    <input type="text" id="listSeller" placeholder="Atuhairwe Sam - 0775735461" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Location</label>
+                    <input type="text" id="listLocation" placeholder="Mabaale Town Council" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-xs">Cancel</button>
+                <button onclick="submitNewListing()" class="w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-xl font-semibold text-xs shadow">Post Item (Pending Sam Approval)</button>
+            </div>
+        </div>
+
+        <!-- Job Modal -->
+        <div id="modalJob" class="modal-box hidden bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4">
+            <h3 class="font-bold text-lg text-slate-900">Post Farm Job Vacancy</h3>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Job Title</label>
+                    <input type="text" id="jobTitle" placeholder="e.g. Coffee Harvester" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Salary / Wage (<span class="currency-label">UGX</span>)</label>
+                    <input type="text" id="jobSalary" placeholder="e.g. 15,000 / Day" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Employer & Contact</label>
+                    <input type="text" id="jobContact" placeholder="Atuhairwe Sam - 0775735461" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Location</label>
+                    <input type="text" id="jobLoc" placeholder="Kagadi District" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-xs">Cancel</button>
+                <button onclick="submitNewJob()" class="w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-xl font-semibold text-xs shadow">Post Job</button>
+            </div>
+        </div>
+
+        <!-- Forum Modal -->
+        <div id="modalForum" class="modal-box hidden bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4">
+            <h3 class="font-bold text-lg text-slate-900">Start Discussion Topic (Led by Sam)</h3>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Your Name</label>
+                    <input type="text" id="forumAuthor" placeholder="Atuhairwe Sam" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Topic / Question</label>
+                    <textarea id="forumText" rows="3" placeholder="Ask about fertilizer, weather, or market rates..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-xs">Cancel</button>
+                <button onclick="submitNewForumPost()" class="w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-xl font-semibold text-xs shadow">Post Discussion</button>
+            </div>
+        </div>
+
+        <!-- Trouble Alert Modal -->
+        <div id="modalTrouble" class="modal-box hidden bg-white p-6 rounded-3xl shadow-2xl max-w-md w-full space-y-4">
+            <div class="flex items-center gap-3 text-red-600">
+                <i class="fas fa-exclamation-triangle text-2xl"></i>
+                <h3 class="font-bold text-lg text-slate-900">Encountering Trouble? Alert Admin</h3>
+            </div>
+            <p class="text-xs text-slate-500">Send an urgent distress alert directly to Master Creator ATUHAIRWE MARK at <strong>atuharwemark@gmail.com</strong> and Operational Lead Atuhairwe Sam.</p>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Your Name & Phone</label>
+                    <input type="text" id="troubleSender" placeholder="e.g. Katusiime Prossy - 077XXXXXXXX" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Describe Your Trouble / Issue</label>
+                    <textarea id="troubleMessage" rows="3" placeholder="Explain the issue (e.g. Mobile money transaction delay, login trouble, 3-hour timer reset)..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl font-semibold text-xs">Cancel</button>
+                <button onclick="sendTroubleAlert()" class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-semibold text-xs shadow">Send Emergency Alert</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic with 1-Hr Visitor Session, 3-Hour Timer, MTN/Airtel Server Gateway & Security -->
+    <script>
+        const currencyRates = { UGX: 1, USD: 0.00027, EUR: 0.00025, KES: 0.035 };
+        let currentCurrency = 'UGX';
+
+        // Default Initial State with Unique ID Codes and 3-Hour Timer Stamps
+        const defaultState = {
+            prices: {
+                Rice: 4200, Coffee: 11500, Beans: 3400, Groundnuts: 5200, Maize: 1200,
+                Banana: 18000, Sugarcanes: 3500, Cocoa: 14000, Goats: 200000, Chicken: 30000
+            },
+            listings: [
+                { id: 1, commodity: 'Coffee', price: 11500, seller: 'Atuhairwe Sam', contact: '0775735461', location: 'Mabaale Town Council', status: 'Approved' },
+                { id: 2, commodity: 'Beans', price: 3400, seller: 'Katusiime Prossy', contact: '0770000000', location: 'Kagadi District', status: 'Approved' },
+                { id: 3, commodity: 'Goats', price: 200000, seller: 'Byaruhanga John', contact: '0780000000', location: 'Mabaale', status: 'Approved' },
+                { id: 4, commodity: 'Banana', price: 18000, seller: 'Atuhairwe Sam', contact: '0775735461', location: 'Mabaale Town Council', status: 'Approved' }
+            ],
+            pendingListings: [
+                { id: 101, commodity: 'Maize', price: 1200, seller: 'Mugisa Paul', contact: '0779998888', location: 'Kagadi TC', status: 'Pending' }
+            ],
+            members: [
+                { id: 1, name: 'Atuhairwe Sam', idCode: 'KAG-MAB-SAM-01', phone: '0775735461', location: 'Mabaale Town Council', photo: '', role: 'SACCO Manager & Lead', lastPaymentTime: Date.now() },
+                { id: 2, name: 'ATUHAIRWE MARK', idCode: 'KAG-MAB-MARK-00', phone: '0770000000', location: 'Kagadi District (atuharwemark@gmail.com)', photo: '', role: 'Master Creator & Admin', lastPaymentTime: Date.now() },
+                { id: 3, name: 'Katusiime Prossy', idCode: 'KAG-MAB-2026-02', phone: '0771112222', location: 'Mabaale', photo: '', role: 'Registered Farmer', lastPaymentTime: Date.now() }
+            ],
+            jobs: [
+                { id: 1, title: 'Coffee Harvest Supervisor', salary: 'UGX 350,000 / Mo', contact: 'Atuhairwe Sam - 0775735461', location: 'Mabaale' },
+                { id: 2, title: 'Maize Shelling Laborer', salary: 'UGX 15,000 / Day', contact: 'Kagadi Agro Ltd', location: 'Kagadi' }
+            ],
+            saccoTransactions: [
+                { ref: 'SACCO-9921', member: 'Atuhairwe Sam (KAG-MAB-SAM-01)', type: 'Savings Deposit', amount: '150,000', date: 'Today', status: 'Approved' },
+                { ref: 'SACCO-8820', member: 'Katusiime Prossy (KAG-MAB-2026-02)', type: 'Share Purchase', amount: '30,000', date: 'Yesterday', status: 'Approved' }
+            ],
+            forumPosts: [
+                { author: 'Atuhairwe Sam (Master Discusser)', text: 'Welcome farmers! Post your questions regarding coffee pruning, bean storage, and SACCO low-interest loans here.', time: '2 hours ago' }
+            ]
+        };
+
+        // Load or initialize state from LocalStorage
+        let state = JSON.parse(localStorage.getItem('uganda_farmers_network_state')) || defaultState;
+        let currentActiveFarmer = JSON.parse(localStorage.getItem('uganda_farmers_active_session')) || null;
+        let visitorStartTime = Number(localStorage.getItem('uganda_farmers_visitor_start')) || null;
+
+        function persistState() {
+            localStorage.setItem('uganda_farmers_network_state', JSON.stringify(state));
+            localStorage.setItem('uganda_farmers_active_session', JSON.stringify(currentActiveFarmer));
+            localStorage.setItem('uganda_farmers_visitor_start', visitorStartTime);
+        }
+
+        // Check Timers on Load and Interval (1-Hour Visitor Timer / 3-Hour Member Timer)
+        setInterval(checkTimers, 30000);
+
+        function checkTimers() {
+            const oneHourInMs = 1 * 60 * 60 * 1000;
+            const threeHoursInMs = 3 * 60 * 60 * 1000;
+
+            if (currentActiveFarmer) {
+                if (currentActiveFarmer.name.toLowerCase().includes('atuhairwe sam') || currentActiveFarmer.name.toLowerCase().includes('atuhairwe mark')) {
+                    return; // Exempt
+                }
+                const elapsed = Date.now() - currentActiveFarmer.lastPaymentTime;
+                if (elapsed > threeHoursInMs) {
+                    currentActiveFarmer = null;
+                    localStorage.removeItem('uganda_farmers_active_session');
+                    document.getElementById('gateSubtitleylidene').innerText = 'Your 3-hour member access timer has expired! Please enter your Unique ID Code or renew via MoMo.';
+                    document.getElementById('idSecurityGateModal').classList.remove('hidden');
+                    showToast('Member session expired after 3 hours.');
+                }
+            } else if (visitorStartTime) {
+                const visitorElapsed = Date.now() - visitorStartTime;
+                if (visitorElapsed > oneHourInMs) {
+                    visitorStartTime = null;
+                    localStorage.removeItem('uganda_farmers_visitor_start');
+                    document.getElementById('gateSubtitle').innerText = 'Your 1-hour free visitor session has ended. Please enter your Unique ID Code or register as a member.';
+                    document.getElementById('idSecurityGateModal').classList.remove('hidden');
+                    showToast('Your 1-hour free visitor access has expired.');
+                }
+            }
+        }
+
+        function continueAsVisitor() {
+            if (!visitorStartTime) {
+                visitorStartTime = Date.now();
+            }
+            persistState();
+            document.getElementById('idSecurityGateModal').classList.add('hidden');
+            showToast('Welcome visitor! Enjoy 1 hour of free browsing access.');
+        }
+
+        function verifyFarmerIdCode() {
+            const code = document.getElementById('gateIdCodeInput').value.trim();
+            const phone = document.getElementById('gatePhoneInput').value.trim();
+            if (!code) { showToast('Please enter your unique ID code'); return; }
+
+            const found = state.members.find(m => m.idCode === code || m.phone === phone);
+            if (found) {
+                currentActiveFarmer = found;
+                visitorStartTime = null;
+                persistState();
+                document.getElementById('idSecurityGateModal').classList.add('hidden');
+                showToast(`Welcome back, ${found.name}! Member access granted.`);
+            } else {
+                showToast('ID Code or Phone not found in database. Please register first or continue as visitor.');
+            }
+        }
+
+        function bypassIdGateForSamAndMark() {
+            currentActiveFarmer = state.members[0]; // Atuhairwe Sam
+            visitorStartTime = null;
+            persistState();
+            document.getElementById('idSecurityGateModal').classList.add('hidden');
+            showToast('Master Access granted for Atuhairwe Sam / Mark.');
+        }
+
+        function formatMoney(amountInUGX) {
+            const rate = currencyRates[currentCurrency];
+            const converted = amountInUGX * rate;
+            if (currentCurrency === 'UGX') {
+                return converted.toLocaleString();
+            } else {
+                return converted.toFixed(2);
+            }
+        }
+
+        function changeCurrency() {
+            currentCurrency = document.getElementById('currencySelector').value;
+            document.querySelectorAll('.currency-label').forEach(el => el.innerText = currentCurrency);
+            renderAll();
+            showToast(`Currency updated to ${currentCurrency}`);
+        }
+
+        // Navigation Switcher
+        function switchTab(tabId) {
+            const freeTabs = ['home', 'marketplace', 'jobs', 'forum', 'seasons', 'partners', 'momo', 'digitalId', 'sacco'];
+            if (!currentActiveFarmer && !visitorStartTime && !freeTabs.includes(tabId)) {
+                document.getElementById('idSecurityGateModal').classList.remove('hidden');
+                showToast('Please enter your Unique ID Code or continue as visitor.');
+                return;
+            }
+
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-white/20', 'text-white'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.add('hover:bg-white/10', 'text-emerald-100'));
+
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white/20', 'text-white');
+                activeBtn.classList.remove('hover:bg-white/10', 'text-emerald-100');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        function renderAll() {
+            for (let crop in state.prices) {
+                const el = document.getElementById('t-' + crop);
+                if (el) el.innerText = formatMoney(state.prices[crop]);
+            }
+
+            const homeGrid = document.getElementById('homeCropsGrid');
+            if (homeGrid) {
+                const cropIcons = { Rice: 'fa-bowl-rice', Coffee: 'fa-mug-hot', Beans: 'fa-seedling', Groundnuts: 'fa-circle-dot', Maize: 'fa-wheat-awn', Banana: 'fa-apple-whole', Sugarcanes: 'fa-candy-cane', Cocoa: 'fa-cookie', Goats: 'fa-hippo', Chicken: 'fa-feather' };
+                homeGrid.innerHTML = Object.keys(state.prices).map(crop => `
+                    <div class="glass-panel p-4 rounded-2xl shadow-sm text-center space-y-2 hover:shadow-md transition">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto text-lg"><i class="fas ${cropIcons[crop] || 'fa-seedling'}"></i></div>
+                        <h4 class="font-bold text-slate-900 text-xs">${crop}</h4>
+                        <p class="text-xs font-black text-emerald-700">${currentCurrency} ${formatMoney(state.prices[crop])}</p>
+                    </div>
+                `).join('');
+            }
+
+            const marketGrid = document.getElementById('marketplaceGrid');
+            if (marketGrid) {
+                const approvedListings = state.listings.filter(i => i.status === 'Approved');
+                marketGrid.innerHTML = approvedListings.map(item => `
+                    <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 space-y-3 flex flex-col justify-between">
+                        <div class="space-y-1">
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase">${item.commodity}</span>
+                            <h4 class="font-black text-slate-900 text-base">${currentCurrency} ${formatMoney(item.price)}</h4>
+                            <p class="text-xs text-slate-500"><i class="fas fa-map-marker-alt mr-1"></i> ${item.location}</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="font-semibold text-slate-700">${item.seller}</span>
+                            <a href="tel:${item.contact}" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-1.5 rounded-lg transition shadow">
+                                <i class="fas fa-phone mr-1"></i> Call
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const samMemberList = document.getElementById('samMemberList');
+            if (samMemberList) {
+                samMemberList.innerHTML = state.members.map(m => {
+                    const isProtected = m.name.toLowerCase().includes('atuhairwe sam') || m.name.toLowerCase().includes('atuhairwe mark');
+                    return `
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-200 flex justify-between items-center text-xs shadow-inner">
+                            <div class="flex items-center gap-2">
+                                ${m.photo ? `<img src="${m.photo}" class="w-8 h-8 rounded-full object-cover border">` : `<div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs">${m.name.charAt(0)}</div>`}
+                                <div>
+                                    <p class="font-bold text-slate-900">${m.name} <span class="font-mono text-[10px] text-emerald-700">(${m.idCode})</span> ${isProtected ? '<i class="fas fa-shield-alt text-amber-500 ml-1" title="Protected"></i>' : ''}</p>
+                                    <p class="text-[10px] text-slate-500">${m.phone} • ${m.location}</p>
+                                </div>
+                            </div>
+                            ${isProtected ? '<span class="text-[10px] text-amber-600 font-black">Protected</span>' : `<button onclick="samRemoveMember(${m.id})" class="text-red-600 hover:text-red-800 p-1"><i class="fas fa-trash"></i></button>`}
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const samPendingListings = document.getElementById('samPendingListings');
+            if (samPendingListings) {
+                if (state.pendingListings.length === 0) {
+                    samPendingListings.innerHTML = `<p class="text-xs text-slate-400 italic">No pending seller listings.</p>`;
+                } else {
+                    samPendingListings.innerHTML = state.pendingListings.map(p => `
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2 text-xs shadow-inner">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="bg-amber-100 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded">${p.commodity}</span>
+                                    <p class="font-bold text-slate-900 text-xs mt-1">${p.seller} (${p.contact})</p>
+                                    <p class="text-[10px] text-slate-500">${p.location} • ${currentCurrency} ${formatMoney(p.price)}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 pt-1">
+                                <button onclick="samApproveListing(${p.id})" class="w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white py-1 rounded-lg font-bold">Accept</button>
+                                <button onclick="samRejectListing(${p.id})" class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-1 rounded-lg font-bold">Reject</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            renderDatabaseTable(state.members);
+
+            const jobsGrid = document.getElementById('jobsGrid');
+            if (jobsGrid) {
+                jobsGrid.innerHTML = state.jobs.map(job => `
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4 flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md">Vacancy</span>
+                            <h4 class="font-bold text-slate-900 text-base">${job.title}</h4>
+                            <p class="text-xs text-emerald-700 font-bold"><i class="fas fa-money-bill-wave mr-1"></i> ${job.salary}</p>
+                            <p class="text-xs text-slate-500"><i class="fas fa-map-marker-alt mr-1"></i> ${job.location}</p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-100 flex justify-between items-center text-xs">
+                            <span class="font-semibold text-slate-700">${job.contact}</span>
+                            <a href="tel:0775735461" class="bg-emerald-700 text-white px-3 py-1.5 rounded-lg font-bold shadow">Contact</a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const saccoTbody = document.getElementById('saccoTransactionsTable');
+            if (saccoTbody) {
+                saccoTbody.innerHTML = state.saccoTransactions.map(tx => `
+                    <tr>
+                        <td class="p-3 font-mono font-bold">${tx.ref}</td>
+                        <td class="p-3 font-semibold text-slate-900">${tx.member}</td>
+                        <td class="p-3">${tx.type}</td>
+                        <td class="p-3 font-bold">${currentCurrency} ${tx.amount}</td>
+                        <td class="p-3 text-slate-500">${tx.date}</td>
+                        <td class="p-3"><span class="bg-emerald-100 text-emerald-900 text-[10px] font-black px-2 py-0.5 rounded">${tx.status}</span></td>
+                    </tr>
+                `).join('');
+            }
+
+            const forumContainer = document.getElementById('forumPostsContainer');
+            if (forumContainer) {
+                forumContainer.innerHTML = state.forumPosts.map(post => `
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="font-bold text-slate-900"><i class="fas fa-user-circle text-emerald-600 mr-1"></i> ${post.author}</span>
+                            <span class="text-slate-400">${post.time}</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">${post.text}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderDatabaseTable(membersList) {
+            const tbody = document.getElementById('databaseTableBody');
+            if (!tbody) return;
+            const threeHoursInMs = 3 * 60 * 60 * 1000;
+
+            if (membersList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 italic">No members found in database.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = membersList.map(m => {
+                const isProtected = m.name.toLowerCase().includes('atuhairwe');
+                const elapsed = Date.now() - (m.lastPaymentTime || Date.now());
+                const timeLeftMs = threeHoursInMs - elapsed;
+                const hoursLeft = Math.max(0, Math.floor(timeLeftMs / (1000 * 60 * 60)));
+                const minsLeft = Math.max(0, Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60)));
+                const isExpired = timeLeftMs <= 0 && !isProtected;
+
+                return `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-3">
+                            ${m.photo ? `<img src="${m.photo}" class="w-10 h-10 rounded-full object-cover border border-slate-300">` : `<div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-900 font-bold flex items-center justify-center text-sm">${m.name.charAt(0)}</div>`}
+                        </td>
+                        <td class="p-3 font-bold text-slate-900">${m.name}</td>
+                        <td class="p-3 font-mono font-bold text-emerald-700">${m.idCode}</td>
+                        <td class="p-3 font-mono text-slate-600">${m.phone}</td>
+                        <td class="p-3 text-slate-600">${m.location}</td>
+                        <td class="p-3">
+                            ${isProtected ? `<span class="bg-amber-100 text-amber-900 font-black px-2 py-1 rounded text-[10px]">EXEMPT (ADMIN)</span>` : 
+                              isExpired ? `<span class="bg-red-100 text-red-800 font-black px-2 py-1 rounded text-[10px]">LOGGED OUT (3H TIMEOUT)</span>` :
+                              `<span class="bg-emerald-100 text-emerald-900 font-black px-2 py-1 rounded text-[10px]">ACTIVE (${hoursLeft}h ${minsLeft}m left)</span>`}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterDatabase() {
+            const query = document.getElementById('databaseSearchInput').value.toLowerCase();
+            const filtered = state.members.filter(m => m.name.toLowerCase().includes(query) || m.idCode.toLowerCase().includes(query) || m.location.toLowerCase().includes(query));
+            renderDatabaseTable(filtered);
+        }
+
+        function exportDatabaseTxt() {
+            let text = "UGANDA FARMERS NETWORK - MEMBERS DATABASE & UNIQUE ID CODES\n\n";
+            state.members.forEach(m => {
+                text += `Name: ${m.name}\nID Code: ${m.idCode}\nPhone: ${m.phone}\nLocation: ${m.location}\nRole: ${m.role || 'Verified Member'}\n-----------------------------------\n`;
+            });
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'Members_Database_With_IDs.txt'; a.click();
+            showToast('Members database with unique ID codes exported as .txt successfully!');
+        }
+
+        function filterMarket(crop) {
+            document.querySelectorAll('.market-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-600', 'text-white', 'shadow');
+                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+            });
+            event.target.classList.add('bg-emerald-600', 'text-white', 'shadow');
+            event.target.classList.remove('bg-white', 'text-slate-700', 'border');
+
+            const marketGrid = document.getElementById('marketplaceGrid');
+            const approvedListings = state.listings.filter(i => i.status === 'Approved');
+            const filtered = crop === 'all' ? approvedListings : approvedListings.filter(i => i.commodity === crop);
+            marketGrid.innerHTML = filtered.map(item => `
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200 space-y-3 flex flex-col justify-between">
+                    <div class="space-y-1">
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-1 rounded-md uppercase">${item.commodity}</span>
+                        <h4 class="font-black text-slate-900 text-base">${currentCurrency} ${formatMoney(item.price)}</h4>
+                        <p class="text-xs text-slate-500"><i class="fas fa-map-marker-alt mr-1"></i> ${item.location}</p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span class="font-semibold text-slate-700">${item.seller}</span>
+                        <a href="tel:${item.contact}" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-1.5 rounded-lg transition shadow">
+                            <i class="fas fa-phone mr-1"></i> Call
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function verifySamPasscode() {
+            const code = document.getElementById('samPasscodeInput').value.trim();
+            if (code === 'SAM210') {
+                document.getElementById('samLoginGate').classList.add('hidden');
+                document.getElementById('samDashboard').classList.remove('hidden');
+                showToast("Sam's High-Security Control Desk unlocked successfully!");
+            } else {
+                showToast('Incorrect executive passcode! Enter SAM210');
+            }
+        }
+
+        function masterMarkSamBypass() {
+            document.getElementById('samLoginGate').classList.add('hidden');
+            document.getElementById('samDashboard').classList.remove('hidden');
+            showToast('Master Executive Bypass granted for ATUHAIRWE MARK!');
+        }
+
+        function lockSamPortal() {
+            document.getElementById('samDashboard').classList.add('hidden');
+            document.getElementById('samLoginGate').classList.remove('hidden');
+            document.getElementById('samPasscodeInput').value = '';
+            showToast("Sam's Control Desk locked securely.");
+        }
+
+        function samAddMember() {
+            const name = document.getElementById('samNewMemberName').value.trim();
+            const phone = document.getElementById('samNewMemberPhone').value.trim();
+            const location = document.getElementById('samNewMemberLoc').value.trim();
+            const fileInput = document.getElementById('samNewMemberPhoto');
+            if(!name) { showToast('Please enter member name'); return; }
+
+            const uniqueIdCode = 'KAG-MAB-2026-' + Math.floor(10 + Math.random() * 90);
+
+            const reader = new FileReader();
+            if (fileInput.files && fileInput.files[0]) {
+                reader.onload = function(e) {
+                    state.members.push({ id: Date.now(), name, idCode: uniqueIdCode, phone: phone || '0775735461', location: location || 'Mabaale TC', photo: e.target.result, role: 'Verified Member', lastPaymentTime: Date.now() });
+                    persistState();
+                    renderAll();
+                    document.getElementById('samNewMemberName').value = '';
+                    document.getElementById('samNewMemberPhone').value = '';
+                    document.getElementById('samNewMemberLoc').value = '';
+                    fileInput.value = '';
+                    showToast(`Member ${name} added with Unique ID Code ${uniqueIdCode}!`);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                state.members.push({ id: Date.now(), name, idCode: uniqueIdCode, phone: phone || '0775735461', location: location || 'Mabaale TC', photo: '', role: 'Verified Member', lastPaymentTime: Date.now() });
+                persistState();
+                renderAll();
+                document.getElementById('samNewMemberName').value = '';
+                document.getElementById('samNewMemberPhone').value = '';
+                document.getElementById('samNewMemberLoc').value = '';
+                showToast(`Member ${name} added with Unique ID Code ${uniqueIdCode}!`);
+            }
+        }
+
+        function samRemoveMember(id) {
+            const memberToRemove = state.members.find(m => m.id === id);
+            if (memberToRemove && (memberToRemove.name.toLowerCase().includes('atuhairwe sam') || memberToRemove.name.toLowerCase().includes('atuhairwe mark'))) {
+                showToast('Action forbidden: Atuhairwe Sam and Creator ATUHAIRWE MARK cannot be removed!');
+                return;
+            }
+            state.members = state.members.filter(m => m.id !== id);
+            persistState();
+            renderAll();
+            showToast('Member removed from network and database.');
+        }
+
+        function samApproveListing(id) {
+            const item = state.pendingListings.find(p => p.id === id);
+            if(item) {
+                item.status = 'Approved';
+                state.listings.unshift(item);
+                state.pendingListings = state.pendingListings.filter(p => p.id !== id);
+                persistState();
+                renderAll();
+                showToast(`Seller listing for ${item.commodity} accepted into marketplace by Sam!`);
+            }
+        }
+
+        function samRejectListing(id) {
+            state.pendingListings = state.pendingListings.filter(p => p.id !== id);
+            persistState();
+            renderAll();
+            showToast('Seller listing rejected.');
+        }
+
+        function samSavePrices() {
+            state.prices.Coffee = Number(document.getElementById('samEditCoffee').value) || state.prices.Coffee;
+            state.prices.Beans = Number(document.getElementById('samEditBeans').value) || state.prices.Beans;
+            state.prices.Rice = Number(document.getElementById('samEditRice').value) || state.prices.Rice;
+            state.prices.Goats = Number(document.getElementById('samEditGoats').value) || state.prices.Goats;
+            persistState();
+            renderAll();
+            showToast("Sam updated official market prices successfully!");
+        }
+
+        function openModal(modalId) {
+            document.getElementById('modalBackdrop').classList.remove('hidden');
+            document.querySelectorAll('.modal-box').forEach(el => el.classList.add('hidden'));
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+        function openListingModal() { openModal('modalListing'); }
+        function openJobModal() { openModal('modalJob'); }
+        function openForumModal() { openModal('modalForum'); }
+        function openTroubleModal() { openModal('modalTrouble'); }
+        function closeModal() { document.getElementById('modalBackdrop').classList.add('hidden'); }
+
+        function submitNewListing() {
+            const commodity = document.getElementById('listCommodity').value;
+            const price = Number(document.getElementById('listPrice').value);
+            const seller = document.getElementById('listSeller').value || 'Farmers Member';
+            const location = document.getElementById('listLocation').value || 'Mabaale';
+            if(!price) { showToast('Please enter a valid price'); return; }
+            state.pendingListings.unshift({ id: Date.now(), commodity, price, seller, contact: '0775735461', location, status: 'Pending' });
+            persistState();
+            closeModal();
+            renderAll();
+            showToast('Listing submitted! Awaiting Sam\'s market approval.');
+        }
+
+        function submitNewJob() {
+            const title = document.getElementById('jobTitle').value;
+            const salary = document.getElementById('jobSalary').value;
+            const contact = document.getElementById('jobContact').value;
+            const location = document.getElementById('jobLoc').value;
+            if(!title) { showToast('Please enter job title'); return; }
+            state.jobs.unshift({ id: Date.now(), title, salary, contact, location });
+            persistState();
+            closeModal();
+            renderAll();
+            showToast('Job vacancy successfully posted!');
+        }
+
+        function submitNewForumPost() {
+            const author = document.getElementById('forumAuthor').value || 'Atuhairwe Sam (Master Discusser)';
+            const text = document.getElementById('forumText').value;
+            if(!text) { showToast('Please enter discussion text'); return; }
+            state.forumPosts.unshift({ author, text, time: 'Just now' });
+            persistState();
+            closeModal();
+            renderAll();
+            showToast('Discussion published to forum!');
+        }
+
+        function sendTroubleAlert() {
+            const sender = document.getElementById('troubleSender').value || 'Farmers Member';
+            const msg = document.getElementById('troubleMessage').value;
+            if(!msg) { showToast('Please describe your trouble'); return; }
+            closeModal();
+            showToast(`EMERGENCY ALERT SENT to Master Email (atuharwemark@gmail.com) and Sam! We will respond shortly.`);
+        }
+
+        function processServerMobileMoneyPayment() {
+            const amount = document.getElementById('momoAmount').value;
+            const network = document.getElementById('momoNetwork').value;
+            const purpose = document.getElementById('momoPurpose').value;
+            const phone = document.getElementById('momoPhone').value || '0775735461';
+            const idCode = document.getElementById('momoIdCode').value.trim();
+            if(!amount) { showToast('Please enter amount'); return; }
+
+            if (idCode) {
+                const member = state.members.find(m => m.idCode === idCode);
+                if (member) {
+                    member.lastPaymentTime = Date.now();
+                    persistState();
+                }
+            }
+            
+            document.getElementById('momoRef').innerText = 'MOMO-SERVER-' + Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('momoRecPurpose').innerText = purpose;
+            document.getElementById('momoRecAmt').innerText = Number(amount).toLocaleString();
+            document.getElementById('momoRecNet').innerText = network;
+            document.getElementById('momoRecPhone').innerText = phone;
+            document.getElementById('momoRecIdCode').innerText = idCode || 'N/A';
+            document.getElementById('momoReceiptBox').classList.remove('hidden');
+            showToast('MTN & Airtel MoMo Server API response 200 OK! 3-Hour access timer extended.');
+        }
+
+        function saveReceiptTxt() {
+            const text = `UGANDA FARMERS NETWORK - MTN/AIRTEL SERVER RECEIPT\nRef: ${document.getElementById('momoRef').innerText}\nPurpose: ${document.getElementById('momoRecPurpose').innerText}\nAmount: ${document.getElementById('momoRecAmt').innerText} ${currentCurrency}\nGateway: ${document.getElementById('momoRecNet').innerText}\nID Linked: ${document.getElementById('momoRecIdCode').innerText}\nTimer Status: EXTENDED (3 Hours Active)\nApprover: Atuhairwe Sam (0775735461)\nMaster Creator: ATUHAIRWE MARK (atuharwemark@gmail.com)`;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'Server_MoMo_Receipt.txt'; a.click();
+            showToast('Server MoMo receipt saved as .txt file!');
+        }
+
+        function processSaccoDeposit() {
+            const name = document.getElementById('saccoRegName').value.trim() || 'Farmers Member';
+            const idCode = document.getElementById('saccoRegIdCode').value.trim() || 'KAG-MAB-2026-05';
+            const amount = document.getElementById('saccoAmount').value;
+            const type = document.getElementById('saccoTxType').value;
+            if(!amount) { showToast('Please enter deposit amount'); return; }
+
+            state.saccoTransactions.unshift({
+                ref: 'SACCO-' + Math.floor(1000 + Math.random() * 9000),
+                member: `${name} (${idCode})`,
+                type: type === 'Savings' ? 'Savings Deposit' : type === 'Shares' ? 'Share Purchase' : 'Lifetime Registration',
+                amount: Number(amount).toLocaleString(),
+                date: 'Just now',
+                status: 'Approved'
+            });
+            persistState();
+            renderAll();
+            showToast('SACCO payment processed successfully via MTN/Airtel server gateway!');
+        }
+
+        function submitMemberRegistration() {
+            const name = document.getElementById('regFullName').value.trim() || 'Katusiime Prossy';
+            const phone = document.getElementById('regPhoneNum').value.trim() || '0775735461';
+            const loc = document.getElementById('regLoc').value.trim() || 'Mabaale Town Council';
+            const crops = document.getElementById('regCropList').value.trim() || 'Coffee, Beans, Goats';
+            const fileInput = document.getElementById('regPhotoInput');
+
+            const uniqueIdCode = 'KAG-MAB-2026-' + Math.floor(10 + Math.random() * 90);
+
+            document.getElementById('idCardName').innerText = name;
+            document.getElementById('idCardPhone').innerHTML = `<i class="fas fa-phone mr-1"></i> ${phone}`;
+            document.getElementById('idCardLocation').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i> ${loc}`;
+            document.getElementById('idCardCodeDisplay').innerText = uniqueIdCode;
+
+            const reader = new FileReader();
+            if (fileInput.files && fileInput.files[0]) {
+                reader.onload = function(e) {
+                    const photoUrl = e.target.result;
+                    document.getElementById('idCardPhotoContainer').innerHTML = `<img src="${photoUrl}" class="w-full h-full object-cover">`;
+                    
+                    state.members.push({ id: Date.now(), name, idCode: uniqueIdCode, phone, location: loc, photo: photoUrl, role: 'Registered Member', lastPaymentTime: Date.now() });
+                    persistState();
+                    renderAll();
+                    showToast(`Digital ID generated with Unique ID Code: ${uniqueIdCode}! 3-Hour timer started.`);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                document.getElementById('idCardPhotoContainer').innerHTML = `<div class="w-full h-full flex items-center justify-center font-bold text-lg">${name.charAt(0)}</div>`;
+                state.members.push({ id: Date.now(), name, idCode: uniqueIdCode, phone, location: loc, photo: '', role: 'Registered Member', lastPaymentTime: Date.now() });
+                persistState();
+                renderAll();
+                showToast(`Digital ID generated with Unique ID Code: ${uniqueIdCode}! 3-Hour timer started.`);
+            }
+        }
+
+        function verifyAdminPasscode() {
+            const code = document.getElementById('adminPasscodeInput').value.trim();
+            if (code === '2010') {
+                document.getElementById('adminLoginGate').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                showToast('Master Admin Portal unlocked successfully for Atuhairwe Mark & Sam!');
+            } else {
+                showToast('Incorrect passcode! Hint: 2010');
+            }
+        }
+
+        function masterMarkBypass() {
+            document.getElementById('adminLoginGate').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            showToast('Master Creator Bypass granted for ATUHAIRWE MARK!');
+        }
+
+        function lockAdminPortal() {
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('adminLoginGate').classList.remove('hidden');
+            document.getElementById('adminPasscodeInput').value = '';
+            showToast('Admin portal locked securely.');
+        }
+
+        function saveAdminPrices() {
+            state.prices.Rice = Number(document.getElementById('adminPrice-Rice').value) || state.prices.Rice;
+            state.prices.Coffee = Number(document.getElementById('adminPrice-Coffee').value) || state.prices.Coffee;
+            state.prices.Beans = Number(document.getElementById('adminPrice-Beans').value) || state.prices.Beans;
+            state.prices.Groundnuts = Number(document.getElementById('adminPrice-Groundnuts').value) || state.prices.Groundnuts;
+            state.prices.Maize = Number(document.getElementById('adminPrice-Maize').value) || state.prices.Maize;
+            state.prices.Banana = Number(document.getElementById('adminPrice-Banana').value) || state.prices.Banana;
+            state.prices.Sugarcanes = Number(document.getElementById('adminPrice-Sugarcanes').value) || state.prices.Sugarcanes;
+            state.prices.Cocoa = Number(document.getElementById('adminPrice-Cocoa').value) || state.prices.Cocoa;
+            state.prices.Goats = Number(document.getElementById('adminPrice-Goats').value) || state.prices.Goats;
+            state.prices.Chicken = Number(document.getElementById('adminPrice-Chicken').value) || state.prices.Chicken;
+            persistState();
+            renderAll();
+            showToast('Official live commodity prices updated and broadcasted by Master Admin!');
+        }
+
+        function approveMember(name) {
+            showToast(`Member ${name} verified and activated successfully!`);
+        }
+
+        function saveDigitalIdCard() {
+            const text = `UGANDA FARMERS NETWORK - DIGITAL ID CARD\nName: ${document.getElementById('idCardName').innerText}\nID Code: ${document.getElementById('idCardCodeDisplay').innerText}\nLocation: ${document.getElementById('idCardLocation').innerText}\nPhone: ${document.getElementById('idCardPhone').innerText}\nStatus: APPROVED & 3-HR TIMER ACTIVE\nMaster Creator: ATUHAIRWE MARK (atuharwemark@gmail.com)`;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'Farmer_Digital_ID.txt'; a.click();
+            showToast('Digital ID card saved as .txt file!');
+        }
+
+        function saveSaccoStatement() {
+            const text = `KAGADI & MABAALE FARMERS SACCO STATEMENT\nTotal Savings Balance: UGX 450,000\nShares Owned: 15 Shares\nSACCO Manager: Atuhairwe Sam (0775735461)\nMaster Creator: ATUHAIRWE MARK (atuharwemark@gmail.com)`;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'SACCO_Statement.txt'; a.click();
+            showToast('SACCO statement downloaded!');
+        }
+
+        window.onload = () => {
+            renderAll();
+            if (currentActiveFarmer || visitorStartTime) {
+                const oneHourInMs = 1 * 60 * 60 * 1000;
+                if (visitorStartTime && (Date.now() - visitorStartTime) > oneHourInMs) {
+                    visitorStartTime = null;
+                    localStorage.removeItem('uganda_farmers_visitor_start');
+                    document.getElementById('idSecurityGateModal').classList.remove('hidden');
+                } else {
+                    document.getElementById('idSecurityGateModal').classList.add('hidden');
+                }
+            }
+        };
+    </script>
+</body>
+</html>

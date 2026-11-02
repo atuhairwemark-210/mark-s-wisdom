@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const UgRevisionApp());
+}
+
+class UgRevisionApp extends StatelessWidget {
+  const UgRevisionApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'EduRevise: O & A Level',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1E3A8A), // Deep Navy
+          primary: const Color(0xFF1E3A8A),
+          secondary: const Color(0xFFD97706), // Amber
+        ),
+      

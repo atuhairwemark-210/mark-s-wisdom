@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENGINEER SAM AUTO SPARES & WORKSHOP - Mabaale, Kagadi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#f59e0b',
+                            darkgold: '#d97706',
+                            orange: '#ea580c',
+                            dark: '#0b1329',
+                            navy: '#172554',
+                            slate: '#1e293b',
+                            light: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(11, 19, 41, 0.96) 0%, rgba(23, 37, 84, 0.9) 100%), 
+                        url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+        }
+        .pulse-sos {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { box-shadow: 0 0 0 14px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #receiptCardPrintable, #receiptCardPrintable * {
+                visibility: visible;
+            }
+            #receiptCardPrintable {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 flex flex-col min-h-screen">
+
+    <!-- TOP ANNOUNCEMENT & QUICK PHONE BAR -->
+    <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 text-white text-xs sm:text-sm py-2.5 px-4 shadow-md font-medium">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-location-dot text-amber-200"></i>
+                <span class="font-bold">Mabaale Town, Kagadi District</span>
+                <span class="hidden md:inline">• Motorcycle & Machinery Specialists</span>
+            </div>
+            <div class="flex items-center space-x-4 font-bold text-xs sm:text-sm">
+                <a href="tel:0775735461" class="hover:underline flex items-center gap-1">
+                    <i class="fa-solid fa-phone text-amber-200"></i> 0775735461
+                </a>
+                <span>|</span>
+                <a href="tel:0788932088" class="hover:underline flex items-center gap-1">
+                    <i class="fa-solid fa-phone text-amber-200"></i> 0788932088
+                </a>
+                <span>|</span>
+                <button onclick="openAdminModal()" class="bg-slate-950 text-amber-400 px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider hover:bg-slate-900 transition-all border border-amber-500/50">
+                    <i class="fa-solid fa-lock mr-1"></i> Admin Portal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN NAVIGATION -->
+    <nav class="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 text-white shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center space-x-3">
+                    <div class="bg-amber-500 p-2.5 rounded-xl text-slate-950 font-black shadow-lg shadow-amber-500/20">
+                        <i class="fa-solid fa-motorcycle text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg sm:text-xl font-black tracking-tight text-white block leading-tight">ENGINEER SAM</span>
+                        <span class="text-[10px] sm:text-xs text-amber-400 font-bold uppercase tracking-widest block">AUTO SPARES & WORKSHOP</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Links -->
+                <div class="hidden lg:flex items-center space-x-5 text-sm font-semibold">
+                    <a href="#parts" class="hover:text-amber-400 transition-colors">Parts Shop</a>
+                    <a href="#services" class="hover:text-amber-400 transition-colors">Services</a>
+                    <a href="#announcements" class="hover:text-amber-400 transition-colors">Announcements</a>
+                    <a href="#booking" class="hover:text-amber-400 transition-colors">Book Workshop</a>
+                    <a href="#receipt" class="hover:text-amber-400 transition-colors">Receipt Card</a>
+                    <a href="#payment" class="hover:text-amber-400 transition-colors">MoMo Pay</a>
+                    <a href="#interaction" class="hover:text-amber-400 transition-colors">Q&A Hub</a>
+                    
+                    <!-- Emergency Alert Trigger Button -->
+                    <button onclick="openSosModal()" class="pulse-sos bg-red-600 hover:bg-red-700 text-white px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider flex items-center space-x-1.5 transition-all">
+                        <i class="fa-solid fa-triangle-exclamation text-sm"></i>
+                        <span>SOS</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Trigger -->
+                <div class="flex lg:hidden items-center space-x-2">
+                    <button onclick="openSosModal()" class="bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>SOS</span>
+                    </button>
+                    <button id="mobileMenuBtn" class="text-slate-300 p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#parts" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">Motorcycle Parts Shop</a>
+            <a href="#services" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">Workshop & Extra Services</a>
+            <a href="#announcements" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">Announcements & Ads</a>
+            <a href="#booking" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">Visiting Workshop Booking</a>
+            <a href="#receipt" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">Receipt Card Generator</a>
+            <a href="#payment" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">MTN & Airtel Payments</a>
+            <a href="#interaction" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">Customer Q&A Hub</a>
+            <a href="#creator" onclick="toggleMobileMenu()" class="block py-2 text-slate-200 hover:text-amber-400 font-medium border-b border-slate-800">Developer Info</a>
+            
+            <div class="pt-2 grid grid-cols-2 gap-2">
+                <button onclick="openAdminModal(); toggleMobileMenu();" class="bg-amber-500 text-slate-950 py-2.5 rounded-xl text-center text-xs font-bold">
+                    <i class="fa-solid fa-lock mr-1"></i> Admin Portal
+                </button>
+                <a href="https://wa.me/256775735461" target="_blank" class="bg-emerald-600 text-white py-2.5 rounded-xl text-center text-xs font-bold flex items-center justify-center gap-1">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero-bg py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-3 py-1.5 rounded-full text-xs font-bold">
+                    <i class="fa-solid fa-motorcycle text-sm"></i>
+                    <span>Specialized Motorcycle Workshop & Auto Center</span>
+                </div>
+                
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+                    ENGINEER SAM <span class="text-amber-500">AUTO SPARES</span> & MULTI-SERVICES
+                </h1>
+                
+                <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    The premier motorcycle repair center, genuine spare parts dealer, welding & fabrication workshop, and agricultural machine engineering hub in **Mabaale, Kagadi District**.
+                </p>
+
+                <!-- Phone Hotline Callout -->
+                <div class="bg-slate-800/90 border border-amber-500/40 p-4 rounded-2xl max-w-xl mx-auto lg:mx-0 shadow-lg">
+                    <p class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-2">Direct Contact Lines:</p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4 text-sm font-extrabold text-white">
+                        <a href="tel:0775735461" class="bg-slate-900 border border-slate-700 hover:border-amber-500 px-4 py-2 rounded-xl flex items-center space-x-2 transition-all">
+                            <i class="fa-solid fa-phone text-amber-400"></i>
+                            <span>0775735461</span>
+                        </a>
+                        <a href="tel:0788932088" class="bg-slate-900 border border-slate-700 hover:border-amber-500 px-4 py-2 rounded-xl flex items-center space-x-2 transition-all">
+                            <i class="fa-solid fa-phone text-amber-400"></i>
+                            <span>0788932088</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                    <button onclick="openSosModal()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-black text-sm uppercase tracking-wider shadow-lg shadow-red-900/40 flex items-center justify-center space-x-2 transition-all">
+                        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                        <span>Breakdown Alert / Emergency SOS</span>
+                    </button>
+                    <a href="#parts" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-950 px-8 py-4 rounded-xl font-extrabold text-sm text-center shadow-lg transition-all">
+                        <i class="fa-solid fa-gears mr-1"></i> Order Boda Spares
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Specs Highlight Card -->
+            <div class="lg:col-span-5 bg-slate-950/80 border border-slate-800 p-6 sm:p-8 rounded-3xl space-y-6">
+                <h3 class="text-lg font-bold text-white flex items-center border-b border-slate-800 pb-3">
+                    <i class="fa-solid fa-wrench text-amber-400 mr-2"></i> Workshop Capabilities
+                </h3>
+
+                <div class="space-y-4 text-xs sm:text-sm">
+                    <div class="flex items-start space-x-3">
+                        <div class="bg-amber-500/20 text-amber-400 p-2 rounded-lg mt-0.5"><i class="fa-solid fa-motorcycle"></i></div>
+                        <div>
+                            <p class="font-bold text-white">Boda-Boda & Motorcycle Overhauls</p>
+                            <p class="text-slate-400 text-xs">Bajaj Boxer 100/150, TVS Star, Sanili, Senke & Yamaha engines.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="bg-amber-500/20 text-amber-400 p-2 rounded-lg mt-0.5"><i class="fa-solid fa-hammer"></i></div>
+                        <div>
+                            <p class="font-bold text-white">Welding & Metal Fabrication</p>
+                            <p class="text-slate-400 text-xs">Gates, trailers, motorcycle frames, and custom agricultural machinery.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="bg-amber-500/20 text-amber-400 p-2 rounded-lg mt-0.5"><i class="fa-solid fa-wheat-awn"></i></div>
+                        <div>
+                            <p class="font-bold text-white">Agri-Machinery Repairs & Rentals</p>
+                            <p class="text-slate-400 text-xs">Posho mills, chaff cutters, engine pumps & equipment hire.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3">
+                        <div class="bg-amber-500/20 text-amber-400 p-2 rounded-lg mt-0.5"><i class="fa-solid fa-laptop-code"></i></div>
+                        <div>
+                            <p class="font-bold text-white">Digital & Website Design</p>
+                            <p class="text-slate-400 text-xs">Modern business websites built by Lead Developer Atuhairwe Mark.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center">
+                    <p class="text-xs text-slate-400">Emergency & Repair Hotline:</p>
+                    <p class="text-base font-black text-amber-400">0775735461 / 0788932088</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ANNOUNCEMENTS & ADVERTISEMENTS SECTION -->
+    <section id="announcements" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="text-center max-w-3xl mx-auto space-y-3 mb-10">
+            <span class="text-amber-400 font-bold text-xs tracking-widest uppercase">Live Notice Board</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-white">Announcements & Advertisements</h2>
+            <p class="text-slate-400 text-sm">Stay updated with Engineer Sam's latest workshop arrivals, promotional discounts, video updates, and voice notes.</p>
+        </div>
+
+        <div id="announcementFeed" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Dynamically populated from JS storage -->
+        </div>
+    </section>
+
+    <!-- MOTORCYCLE SPARE PARTS CATALOG & ORDERING SECTION -->
+    <section id="parts" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full border-t border-slate-800">
+        <div class="text-center max-w-3xl mx-auto space-y-3 mb-10">
+            <span class="text-amber-400 font-bold text-xs tracking-widest uppercase">Genuine Motorcycle Parts Shop</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-white">Motorcycle & Boda-Boda Spares</h2>
+            <p class="text-slate-400 text-sm">Order genuine spares directly in Mabaale. Fast WhatsApp order checkout & payment assistance.</p>
+        </div>
+
+        <!-- Search & Category Filters -->
+        <div class="bg-slate-800/80 p-4 sm:p-6 rounded-2xl border border-slate-700 shadow-md mb-8 space-y-4">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="partsSearch" placeholder="Search motorcycle parts (e.g., Boxer 150 piston, TVS chain, clutch plate, tube)..." 
+                       class="w-full pl-11 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-xl focus:ring-2 focus:ring-amber-500 text-white text-sm outline-none">
+            </div>
+
+            <div class="flex flex-wrap gap-2" id="partsCategoryBar">
+                <button onclick="filterParts('all')" class="parts-cat-btn active bg-amber-500 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold transition-all">All Parts</button>
+                <button onclick="filterParts('Engine Parts')" class="parts-cat-btn bg-slate-900 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all">Engine & Pistons</button>
+                <button onclick="filterParts('Transmission & Chains')" class="parts-cat-btn bg-slate-900 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all">Chains & Sprockets</button>
+                <button onclick="filterParts('Tyres & Tubes')" class="parts-cat-btn bg-slate-900 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all">Tyres & Tubes</button>
+                <button onclick="filterParts('Brakes & Suspension')" class="parts-cat-btn bg-slate-900 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all">Brakes & Shocks</button>
+                <button onclick="filterParts('Electrical & Oils')" class="parts-cat-btn bg-slate-900 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all">Electricals & Oils</button>
+            </div>
+        </div>
+
+        <!-- Parts Grid -->
+        <div id="partsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Special Order Callout -->
+        <div class="mt-12 bg-slate-800/50 border border-slate-700 rounded-2xl p-6 text-center space-y-3">
+            <h3 class="text-lg font-bold text-white">Need a Specific Part Not Listed?</h3>
+            <p class="text-xs sm:text-sm text-slate-400">Engineer Sam imports custom engine valves, rare sprockets, heavy tricycle parts, and tractor spares daily.</p>
+            <a href="https://wa.me/256775735461?text=Hello%20Eng%20Sam,%20I%20need%20a%20special%20motorcycle%20part%20order" target="_blank" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-6 py-3 rounded-xl transition-all">
+                <i class="fa-brands fa-whatsapp text-base"></i>
+                <span>Request Custom Spare Order on WhatsApp (0775735461)</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ALL WORKSHOP & OTHER SERVICES SECTION -->
+    <section id="services" class="py-16 px-4 sm:px-6 lg:px-8 bg-slate-950 border-t border-b border-slate-800">
+        <div class="max-w-7xl mx-auto space-y-12">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="text-amber-400 font-bold text-xs tracking-widest uppercase">Multi-Disciplinary Workshop</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white">Our Complete Range of Services</h2>
+                <p class="text-slate-400 text-sm">Engineered solutions under one roof in Mabaale Town.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Service 1: Motorcycle Engine Repair -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-amber-500/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-motorcycle"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Motorcycle Engine Repair & Overhaul</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Complete engine rebuilds, piston ring replacements, clutch shoe repair, carburetor tuning, valve grinding, and wiring diagnostics for all Boda-Bodas.</p>
+                    </div>
+                    <a href="https://wa.me/256775735461?text=Hello%20Eng%20Sam,%20I%20want%20to%20book%20a%20motorcycle%20engine%20repair" target="_blank" class="text-xs font-bold text-amber-400 hover:underline inline-flex items-center">
+                        Book Engine Service <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2: Rental Services -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-amber-500/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Motorcycle & Equipment Rental</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Daily and weekly rentals of well-serviced Boda-Bodas, heavy-duty welding machines, water pump generators, and construction machinery in Kagadi.</p>
+                    </div>
+                    <a href="https://wa.me/256775735461?text=Hello%20Eng%20Sam,%20I%20am%20inquiring%20about%20motorcycle/equipment%20rental" target="_blank" class="text-xs font-bold text-amber-400 hover:underline inline-flex items-center">
+                        Inquire About Hire <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3: Welding & Fabrication -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-amber-500/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Welding & Metal Fabrication</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Custom metal fabrication, frame reinforcement, metal gates, doors, trailer fabrication, motorcycle carrier racks, and arc/gas welding.</p>
+                    </div>
+                    <a href="https://wa.me/256775735461?text=Hello%20Eng%20Sam,%20I%20have%20a%20welding/fabrication%20job" target="_blank" class="text-xs font-bold text-amber-400 hover:underline inline-flex items-center">
+                        Request Fabrication Quote <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Service 4: Agricultural Machinery -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-amber-500/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-wheat-awn"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Agricultural Machinery Engineering</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Fabrication and repairs of maize hullers, posho mills, diesel engine water pumps, chaff cutters, crop sprayers, and farm implement maintenance.</p>
+                    </div>
+                    <a href="https://wa.me/256775735461?text=Hello%20Eng%20Sam,%20I%20need%20agri-machinery%20repair/fabrication" target="_blank" class="text-xs font-bold text-amber-400 hover:underline inline-flex items-center">
+                        Agri Engineering Info <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Service 5: Website Designing -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-amber-500/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-indigo-500/20 text-indigo-400 rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Website Designing & Digital Tech</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Modern web design, business branding, search engine listing, and web application development created by lead developer **Atuhairwe Mark**.</p>
+                    </div>
+                    <a href="mailto:atuharwemark@gmail.com?subject=Website%20Design%20Inquiry" class="text-xs font-bold text-indigo-400 hover:underline inline-flex items-center">
+                        Contact Tech Lead (Mark) <i class="fa-solid fa-envelope ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Service 6: On-Call Breakdown Service -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-amber-500/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="w-12 h-12 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-truck-pickup"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Roadside Rescue & Mobile Mechanic</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Stuck on the road in Kagadi, Mabaale, or surrounding highways? Our mobile mechanic team comes to your location for fast repairs.</p>
+                    </div>
+                    <button onclick="openSosModal()" class="text-xs font-bold text-red-400 hover:underline inline-flex items-center text-left">
+                        Trigger Emergency SOS <i class="fa-solid fa-triangle-exclamation ml-1"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VISITING MECHANICAL WORKSHOP BOOKING SECTION -->
+    <section id="booking" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="bg-gradient-to-br from-slate-950 to-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <div class="lg:col-span-6 space-y-4">
+                <div class="inline-flex items-center space-x-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full text-xs font-bold">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Workshop Appointment Portal</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white">Request a Visiting Workshop Appointment</h2>
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Visiting the workshop for complex repairs, machine welding, or fleet servicing? Submit your booking here. **Engineer Sam** reviews and approves each appointment request directly to ensure dedicated mechanical attention upon arrival.
+                </p>
+                <div class="space-y-2 pt-2 text-xs text-slate-400">
+                    <p><i class="fa-solid fa-check text-amber-400 mr-2"></i> Priority service upon arrival in Mabaale Town.</p>
+                    <p><i class="fa-solid fa-check text-amber-400 mr-2"></i> Authorized slot allocation by Engineer Sam.</p>
+                    <p><i class="fa-solid fa-check text-amber-400 mr-2"></i> Instant status updates sent via WhatsApp/SMS.</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+                <h3 class="font-bold text-white text-base">Book Appointment Form</h3>
+                <form id="bookingForm" onsubmit="submitBooking(event)" class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Your Full Name</label>
+                            <input type="text" id="bookName" required placeholder="e.g. John Bosco" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Phone Contact Line</label>
+                            <input type="text" id="bookPhone" required placeholder="e.g. 0770xxxxxx" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Motorcycle / Machine Model</label>
+                            <input type="text" id="bookModel" required placeholder="e.g. Boxer 150 / Posho Mill" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Preferred Visit Date</label>
+                            <input type="date" id="bookDate" required class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Service Required / Problem description</label>
+                        <textarea id="bookNotes" rows="2" required placeholder="Describe what needs repair or servicing..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 py-3 rounded-xl font-bold text-xs transition-all shadow-md">
+                        Submit Appointment for Sam's Approval
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- RECEIPT CARD GENERATOR SECTION -->
+    <section id="receipt" class="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-8 shadow-2xl">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <span class="text-amber-400 font-bold text-xs tracking-widest uppercase">Official Documentation</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-white">Receipt Card Generator</h2>
+                <p class="text-slate-400 text-xs sm:text-sm">Generate and print professional service & parts receipt cards instantly.</p>
+            </div>
+
+            <!-- Receipt Form Controls -->
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Customer Name</label>
+                    <input type="text" id="rcptCustomer" value="Musinguzi Robert" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Motorcycle / Machine Model</label>
+                    <input type="text" id="rcptModel" value="Bajaj Boxer BM150" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Phone Number</label>
+                    <input type="text" id="rcptPhone" value="0770123456" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Parts Bought / Service Rendered</label>
+                    <input type="text" id="rcptItem" value="Piston Set & Engine Overhaul" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Total Cost (UGX)</label>
+                    <input type="text" id="rcptCost" value="UGX 87,000" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Payment Method</label>
+                    <select id="rcptMethod" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                        <option value="MTN Mobile Money">MTN Mobile Money (0775735461)</option>
+                        <option value="Airtel Money">Airtel Money (0775735461)</option>
+                        <option value="Cash at Mabaale Workshop">Cash at Workshop</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <button onclick="generateReceiptCard()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-8 py-3 rounded-xl font-extrabold text-xs transition-all shadow-lg">
+                    <i class="fa-solid fa-file-invoice mr-2"></i> Update Receipt Card Preview
+                </button>
+            </div>
+
+            <!-- Printable Receipt Card Output -->
+            <div id="receiptCardPrintable" class="bg-white text-slate-900 p-8 rounded-2xl shadow-xl max-w-xl mx-auto space-y-6 border-4 border-amber-500">
+                <div class="text-center border-b-2 border-slate-200 pb-4 space-y-1">
+                    <div class="inline-block bg-slate-900 text-amber-400 p-2 rounded-xl">
+                        <i class="fa-solid fa-motorcycle text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-black tracking-tight text-slate-900">ENGINEER SAM AUTO SPARES & WORKSHOP</h3>
+                    <p class="text-xs font-bold text-amber-600 uppercase">Mabaale Town Centre, Kagadi District</p>
+                    <p class="text-[11px] text-slate-600">Hotline: 0775735461 / 0788932088 • Email: atuharwemark@gmail.com</p>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div class="flex justify-between border-b border-slate-100 pb-1">
+                        <span class="font-bold text-slate-500">Receipt No:</span>
+                        <span id="prReceiptNo" class="font-bold text-slate-900">SAM-RCT-2026-094</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-100 pb-1">
+                        <span class="font-bold text-slate-500">Date & Time:</span>
+                        <span id="prDate" class="font-bold text-slate-900">June 7, 2026 - 10:45 AM</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-100 pb-1">
+                        <span class="font-bold text-slate-500">Customer Name:</span>
+                        <span id="prCustomer" class="font-bold text-slate-900">Musinguzi Robert</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-100 pb-1">
+                        <span class="font-bold text-slate-500">Vehicle/Model:</span>
+                        <span id="prModel" class="font-bold text-slate-900">Bajaj Boxer BM150</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-100 pb-1">
+                        <span class="font-bold text-slate-500">Phone Contact:</span>
+                        <span id="prPhone" class="font-bold text-slate-900">0770123456</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs">
+                    <p class="font-bold text-slate-700 uppercase tracking-wider text-[10px]">Service & Parts Breakdown:</p>
+                    <div class="flex justify-between font-semibold">
+                        <span id="prItem">Piston Set & Engine Overhaul</span>
+                        <span id="prCost" class="font-bold text-amber-600">UGX 87,000</span>
+                    </div>
+                    <div class="flex justify-between pt-2 border-t border-slate-200 text-sm font-black">
+                        <span>Total Paid:</span>
+                        <span id="prTotal" class="text-slate-900">UGX 87,000</span>
+                    </div>
+                </div>
+
+                <div class="space-y-1 text-xs text-center border-t border-slate-200 pt-4">
+                    <p class="font-bold text-slate-800">Payment Status: <span class="text-emerald-600">VERIFIED & PAID</span></p>
+                    <p id="prMethod" class="text-slate-600 text-[11px]">Paid via MTN Mobile Money to 0775735461 (Atuhairwe Sam)</p>
+                    <p class="text-[10px] text-slate-400 pt-2">Thank you for trusting Engineer Sam Workshop! All parts checked and tested.</p>
+                </div>
+
+                <div class="pt-2 text-center">
+                    <button onclick="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md">
+                        <i class="fa-solid fa-print mr-1.5"></i> Print Official Receipt Card
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MOBILE MONEY PAYMENTS SECTION -->
+    <section id="payment" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-8 shadow-2xl">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <span class="text-amber-400 font-bold text-xs tracking-widest uppercase">Convenient Mobile Checkout</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-white">MTN & Airtel Payment Guide</h2>
+                <p class="text-slate-400 text-xs sm:text-sm">Pay easily for parts, repairs, rentals, or fabrication via Mobile Money.</p>
+            </div>
+
+            <!-- Single Number Banner -->
+            <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 p-6 rounded-2xl text-center space-y-2 shadow-lg">
+                <p class="text-xs uppercase tracking-widest font-extrabold">Official Payment Merchant Number</p>
+                <p class="text-3xl sm:text-5xl font-black tracking-wider">0775735461</p>
+                <p class="text-xs font-bold uppercase">Account Name: ATUHAIRWE SAM / ENGINEER SAM AUTO SPARES</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- MTN Step -->
+                <div class="bg-slate-900 border border-yellow-500/30 p-6 rounded-2xl space-y-3">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-yellow-400 text-slate-950 font-black px-3 py-1 rounded-lg text-sm">MTN MoMo</span>
+                        <h4 class="font-bold text-white text-sm">MTN Payment Steps</h4>
+                    </div>
+                    <ol class="list-decimal list-inside text-xs sm:text-sm text-slate-300 space-y-2">
+                        <li>Dial <span class="font-bold text-amber-400">*165#</span> on your MTN phone.</li>
+                        <li>Select <span class="font-bold text-white">Send Money</span> or <span class="font-bold text-white">Payments</span>.</li>
+                        <li>Enter Number: <span class="font-bold text-amber-400">0775735461</span>.</li>
+                        <li>Enter Agreed Amount & Part/Repair Reference.</li>
+                        <li>Confirm Name: <span class="font-bold text-white">ATUHAIRWE SAM</span> and enter PIN.</li>
+                    </ol>
+                </div>
+
+                <!-- Airtel Step -->
+                <div class="bg-slate-900 border border-red-500/30 p-6 rounded-2xl space-y-3">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-red-600 text-white font-black px-3 py-1 rounded-lg text-sm">Airtel Money</span>
+                        <h4 class="font-bold text-white text-sm">Airtel Pay Steps</h4>
+                    </div>
+                    <ol class="list-decimal list-inside text-xs sm:text-sm text-slate-300 space-y-2">
+                        <li>Dial <span class="font-bold text-red-400">*185#</span> on your Airtel line.</li>
+                        <li>Select <span class="font-bold text-white">Send Money</span>.</li>
+                        <li>Enter Receiver Line: <span class="font-bold text-red-400">0775735461</span>.</li>
+                        <li>Enter the exact amount for your parts/service.</li>
+                        <li>Confirm recipient is registered to Eng. Sam & enter PIN.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="text-center text-xs text-slate-400">
+                <p>After sending payment, please send screenshot or SMS text to <a href="https://wa.me/256775735461" target="_blank" class="text-amber-400 font-bold hover:underline">WhatsApp 0775735461</a> for instant delivery receipt.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE CUSTOMER & ENGINEER INTERACTION BOARD -->
+    <section id="interaction" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="text-center max-w-3xl mx-auto space-y-3 mb-10">
+            <span class="text-amber-400 font-bold text-xs tracking-widest uppercase">Live Help Desk</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-white">Customer & Engineer Interaction Hub</h2>
+            <p class="text-slate-400 text-sm">Ask technical questions, request price estimations, or read mechanical advice directly from Engineer Sam.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Submit Question Box -->
+            <div class="lg:col-span-5 bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-4">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                    <i class="fa-solid fa-comments text-amber-400 mr-2"></i> Ask Engineer Sam
+                </h3>
+                <form id="qaForm" onsubmit="postQuestion(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Your Name</label>
+                        <input type="text" id="qaName" required placeholder="e.g. Peter Boda Mabaale" class="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Motorcycle / Machine Model</label>
+                        <input type="text" id="qaModel" placeholder="e.g. Bajaj Boxer 150 / Posho Mill Diesel" class="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Your Question or Mechanical Issue</label>
+                        <textarea id="qaQuestion" rows="3" required placeholder="Describe the engine sound, missing spare part, or repair price inquiry..." class="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 py-3 rounded-xl font-bold text-xs transition-all shadow-md">
+                        Post Question to Board
+                    </button>
+                </form>
+            </div>
+
+            <!-- Questions Board Feed -->
+            <div class="lg:col-span-7 space-y-4" id="qaFeed">
+                <!-- Javascript populates live Q&A cards here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & CONTACT HIGHLIGHTS -->
+    <section class="bg-slate-950 py-16 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
+                <div class="text-amber-400 text-2xl"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h4 class="font-bold text-white text-base">Workshop Location</h4>
+                <p class="text-xs text-slate-400">Mabaale Town Centre, Along Main Highway, Kagadi District, Uganda.</p>
+            </div>
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
+                <div class="text-amber-400 text-2xl"><i class="fa-solid fa-phone"></i></div>
+                <h4 class="font-bold text-white text-base">Direct Phone Lines</h4>
+                <p class="text-xs text-slate-400">Primary: <a href="tel:0775735461" class="text-amber-400 font-bold">0775735461</a></p>
+                <p class="text-xs text-slate-400">Secondary: <a href="tel:0788932088" class="text-amber-400 font-bold">0788932088</a></p>
+            </div>
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
+                <div class="text-amber-400 text-2xl"><i class="fa-solid fa-envelope"></i></div>
+                <h4 class="font-bold text-white text-base">Email & Digital Enquiries</h4>
+                <p class="text-xs text-slate-400">Support & Emergencies: <a href="mailto:atuharwemark@gmail.com" class="text-amber-400 font-bold">atuharwemark@gmail.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER & CREATOR ATTRIBUTION -->
+    <footer id="creator" class="bg-slate-950 text-slate-400 py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-amber-500 p-2 rounded-lg text-slate-950 font-black">
+                        <i class="fa-solid fa-motorcycle text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="font-extrabold text-white text-sm">ENGINEER SAM AUTO SPARES & WORKSHOP</p>
+                        <p class="text-slate-400 text-xs">Mabaale, Kagadi District • Phone: 0775735461 / 0788932088</p>
+                    </div>
+                </div>
+
+                <div class="flex space-x-4 text-lg">
+                    <a href="https://wa.me/256775735461" target="_blank" class="text-slate-400 hover:text-emerald-400"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="tel:0775735461" class="text-slate-400 hover:text-amber-400"><i class="fa-solid fa-phone"></i></a>
+                    <a href="mailto:atuharwemark@gmail.com" class="text-slate-400 hover:text-indigo-400"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <!-- Developer Attribution Section -->
+            <div class="bg-slate-900/80 p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+                <div class="space-y-1">
+                    <p class="text-xs uppercase tracking-widest font-extrabold text-amber-400">Website Creator & Lead Technology Developer</p>
+                    <p class="text-sm font-black text-white">Designed & Developed by Atuhairwe Mark</p>
+                    <p class="text-slate-400 text-xs">Custom Web Applications • Systems Development • Digital Solutions</p>
+                </div>
+                <div class="space-y-1 text-xs">
+                    <p class="text-slate-300"><i class="fa-solid fa-envelope text-indigo-400 mr-1"></i> <a href="mailto:atuharwemark@gmail.com" class="hover:underline">atuharwemark@gmail.com</a></p>
+                    <p class="text-slate-300"><i class="fa-solid fa-phone text-emerald-400 mr-1"></i> <a href="tel:0775735461" class="hover:underline">0775735461</a></p>
+                </div>
+            </div>
+
+            <div class="text-center text-slate-400 text-[11px]">
+                <p>&copy; 2026 Engineer Sam Auto Spares & Workshop. All rights reserved. Serving Mabaale & Kagadi District.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- EMERGENCY SOS ALERT MODAL -->
+    <div id="sosModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-red-600 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeSosModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 bg-red-600/20 text-red-500 rounded-full flex items-center justify-center mx-auto text-2xl pulse-sos">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">BREAKDOWN / TROUBLE EMERGENCY ALERT</h3>
+                <p class="text-xs text-slate-300">Are you stuck with a breakdown in Kagadi District? Send an instant alert to Engineer Sam via WhatsApp or Email.</p>
+            </div>
+
+            <form id="sosForm" onsubmit="sendSosAlert(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Driver Name & Contact Line</label>
+                    <input type="text" id="sosName" required placeholder="e.g. Alex - 0770xxxxxx" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Current Location (Town / Landmark)</label>
+                    <input type="text" id="sosLocation" required placeholder="e.g. 5km from Mabaale on Kagadi Road" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Issue / Vehicle Type</label>
+                    <textarea id="sosIssue" rows="2" required placeholder="e.g. Boxer 150 chain snapped / engine won't start" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                    <button type="button" onclick="triggerWhatsAppSos()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md">
+                        <i class="fa-brands fa-whatsapp text-base"></i> Send WhatsApp SOS (0775735461)
+                    </button>
+                    <button type="button" onclick="triggerEmailSos()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-envelope text-base"></i> Email SOS Alert
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center pt-2 border-t border-slate-800">
+                <p class="text-xs text-slate-400">Direct Emergency Phone Calls:</p>
+                <div class="flex justify-center space-x-4 font-black text-amber-400 text-sm mt-1">
+                    <a href="tel:0775735461">0775735461</a>
+                    <span>•</span>
+                    <a href="tel:0788932088">0788932088</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-amber-500 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeAdminLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">ENGINEER SAM ADMIN LOGIN</h3>
+                <p class="text-xs text-slate-300">Enter secure Admin PIN or Password. (Protected against scammers with lockout security).</p>
+            </div>
+
+            <form id="adminLoginForm" onsubmit="verifyAdminPin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Admin Security Password / PIN</label>
+                    <input type="password" id="adminPinInput" required placeholder="Enter secret PIN (default: sam2026)" class="w-full px-3 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+                <div id="loginErrorMsg" class="text-xs text-red-500 font-bold hidden"></div>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all">
+                    Access Secure Dashboard
+                </button>
+            </form>
+            <div class="text-center text-[10px] text-slate-500">
+                <p>Authorized personnel only: Engineer Sam & Lead Dev Atuhairwe Mark.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN SECURE DASHBOARD MODAL -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden overflow-y-auto p-4 sm:p-6">
+        <div class="max-w-6xl mx-auto bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-8 shadow-2xl relative my-8">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div>
+                    <span class="bg-amber-500 text-slate-950 font-black px-2.5 py-1 rounded text-[10px] uppercase tracking-wider">SECURE ADMIN PORTAL</span>
+                    <h2 class="text-2xl font-black text-white mt-1">Engineer Sam's Control Panel</h2>
+                </div>
+                <button onclick="closeAdminDashboard()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold">
+                    <i class="fa-solid fa-xmark mr-1"></i> Close Admin
+                </button>
+            </div>
+
+            <!-- Admin Tabs Header -->
+            <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-4">
+                <button onclick="switchAdminTab('prices')" id="tabBtnPrices" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition-all">
+                    <i class="fa-solid fa-tags mr-1"></i> Cost & Price Editor
+                </button>
+                <button onclick="switchAdminTab('customers')" id="tabBtnCustomers" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+                    <i class="fa-solid fa-users mr-1"></i> Customer & Payment DB
+                </button>
+                <button onclick="switchAdminTab('appointments')" id="tabBtnAppointments" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+                    <i class="fa-solid fa-calendar-check mr-1"></i> Visiting Workshop Approvals
+                </button>
+                <button onclick="switchAdminTab('ads')" id="tabBtnAds" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+                    <i class="fa-solid fa-bullhorn mr-1"></i> Announcements & Ads
+                </button>
+            </div>
+
+            <!-- TAB 1: COST & PRICE EDITOR -->
+            <div id="adminTabPrices" class="admin-tab-pane space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Dynamic Cost & Inventory Price Editor</h3>
+                        <p class="text-xs text-slate-400">Edit part prices and service rates in real-time. Changes instantly update the public shop.</p>
+                    </div>
+                    <button onclick="addNewPartPrompt()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold">
+                        <i class="fa-solid fa-plus mr-1"></i> Add New Part
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                            <tr>
+                                <th class="p-3">Part / Item Name</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Ref Code</th>
+                                <th class="p-3">Price (UGX)</th>
+                                <th class="p-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminPartsTableBody" class="divide-y divide-slate-800">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: CUSTOMER & PAYMENT DATABASE -->
+            <div id="adminTabCustomers" class="admin-tab-pane space-y-6 hidden">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Customer Orders & Payment Database</h3>
+                        <p class="text-xs text-slate-400">Live records of customers, services requested, and MTN/Airtel payment transactions.</p>
+                    </div>
+                    <button onclick="addNewCustomerRecord()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold">
+                        <i class="fa-solid fa-plus mr-1"></i> Record New Transaction
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                            <tr>
+                                <th class="p-3">Customer Name</th>
+                                <th class="p-3">Phone Contact</th>
+                                <th class="p-3">Model / Service</th>
+                                <th class="p-3">Amount</th>
+                                <th class="p-3">Payment Method</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminCustomersTableBody" class="divide-y divide-slate-800">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: VISITING WORKSHOP APPROVALS -->
+            <div id="adminTabAppointments" class="admin-tab-pane space-y-6 hidden">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Visiting Workshop Appointments & Approvals</h3>
+                    <p class="text-xs text-slate-400">Engineer Sam's authority portal to approve or reject visiting workshop requests.</p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                            <tr>
+                                <th class="p-3">Customer Name</th>
+                                <th class="p-3">Phone</th>
+                                <th class="p-3">Model</th>
+                                <th class="p-3">Preferred Date</th>
+                                <th class="p-3">Notes / Issue</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Sam's Authority Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminAppointmentsTableBody" class="divide-y divide-slate-800">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: AD & ANNOUNCEMENT MANAGER -->
+            <div id="adminTabAds" class="admin-tab-pane space-y-6 hidden">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Announcements & Advertisements Manager</h3>
+                        <p class="text-xs text-slate-400">Publish notices with Text, Image URL, Video URL, or Voice Note audio simulator.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h4 class="font-bold text-white text-sm">Create New Announcement / Ad</h4>
+                    <form id="newAdForm" onsubmit="postNewAnnouncement(event)" class="space-y-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Headline / Title</label>
+                                <input type="text" id="adTitle" required placeholder="e.g. Special Discount on Boxer Spares this Week" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Image URL (Optional)</label>
+                                <input type="url" id="adImage" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Video URL / YouTube Embed URL (Optional)</label>
+                                <input type="url" id="adVideo" placeholder="https://www.youtube.com/embed/..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Voice Note / Audio Label (Optional)</label>
+                                <input type="text" id="adVoice" placeholder="e.g. Listen to Eng. Sam's Weekly Audio Message" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1">Announcement Body Text</label>
+                            <textarea id="adText" rows="3" required placeholder="Write full details of the notice, promotion, or workshop advisory..." class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-6 py-2.5 rounded-xl text-xs font-bold">
+                            Publish Announcement to Public Feed
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // Global Datastores with LocalStorage persistence
+        let motorcycleParts = JSON.parse(localStorage.getItem('sam_parts')) || [
+            { id: 1, name: "Bajaj Boxer BM150 Piston & Rings Set", category: "Engine Parts", price: "UGX 65,000", code: "BX-PST-150", img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=400&q=80" },
+            { id: 2, name: "TVS Star Heavy Duty Chain & Sprocket Set", category: "Transmission & Chains", price: "UGX 45,000", code: "TVS-CHN-02", img: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=400&q=80" },
+            { id: 3, name: "Heavy Grip Motorcycle Rear Tyre (3.00-17)", category: "Tyres & Tubes", price: "UGX 85,000", code: "TYR-R17", img: "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=400&q=80" },
+            { id: 4, name: "Genuine Boda-Boda Rubber Inner Tube 3.00-17", category: "Tyres & Tubes", price: "UGX 18,000", code: "TUB-17", img: "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=400&q=80" },
+            { id: 5, name: "Bajaj Boxer Complete Clutch Shoe Assembly", category: "Engine Parts", price: "UGX 55,000", code: "BX-CLT-88", img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=400&q=80" },
+            { id: 6, name: "Front Hydraulic Shock Absorber Pair (Senke/Sanili)", category: "Brakes & Suspension", price: "UGX 120,000", code: "SHK-FRNT", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=400&q=80" },
+            { id: 7, name: "Heavy Duty Brake Shoe Pads (Boxer / TVS)", category: "Brakes & Suspension", price: "UGX 15,000", code: "BRK-PAD-01", img: "https://images.unsplash.com/photo-1600793575654-910699b5e4d4?auto=format&fit=crop&w=400&q=80" },
+            { id: 8, name: "Shell Advance 4T 20W-50 Motorcycle Engine Oil 1L", category: "Electrical & Oils", price: "UGX 22,000", code: "OIL-SHL-1L", img: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=400&q=80" }
+        ];
+
+        let customerDatabase = JSON.parse(localStorage.getItem('sam_customers')) || [
+            { name: "Musinguzi Robert", phone: "0770123456", service: "Bajaj Boxer Piston Set", amount: "UGX 65,000", method: "MTN Mobile Money", status: "Verified & Paid" },
+            { name: "Kizza Francis", phone: "0788998877", service: "Posho Mill Welded Hopper", amount: "UGX 150,000", method: "Airtel Money", status: "Verified & Paid" },
+            { name: "Tumusiime Alex", phone: "0775112233", service: "TVS Star Chain Set", amount: "UGX 45,000", method: "Cash at Workshop", status: "Pending Pickup" }
+        ];
+
+        let appointmentsList = JSON.parse(localStorage.getItem('sam_appointments')) || [
+            { name: "Ahebwa Moses", phone: "0774332211", model: "Boxer 150", date: "2026-06-10", notes: "Full engine overhauling & carburetor tune", status: "Approved" },
+            { name: "Byaruhanga Ronald", phone: "0782991122", model: "Diesel Water Pump", date: "2026-06-12", notes: "Water pump impeller replacement & welding", status: "Pending Sam's Approval" }
+        ];
+
+        let announcementsList = JSON.parse(localStorage.getItem('sam_ads')) || [
+            {
+                title: "New Stock of Genuine Bajaj Boxer Spares Arrived!",
+                text: "Engineer Sam has received a fresh shipment of genuine pistons, clutch shoes, and heavy tyres directly from Kampala. Visit the Mabaale workshop today!",
+                image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80",
+                video: "",
+                voice: "Listen to Eng. Sam's Weekly Voice Note on New Spares",
+                time: "Today"
+            }
+        ];
+
+        let currentPartCategory = 'all';
+
+        // Render Parts
+        function renderParts() {
+            const grid = document.getElementById('partsGrid');
+            const search = document.getElementById('partsSearch').value.toLowerCase().trim();
+
+            grid.innerHTML = '';
+
+            const filtered = motorcycleParts.filter(p => {
+                const matchCat = currentPartCategory === 'all' || p.category === currentPartCategory;
+                const matchSearch = p.name.toLowerCase().includes(search) || p.category.toLowerCase().includes(search);
+                return matchCat && matchSearch;
+            });
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-amber-500/50 transition-all";
+                
+                const waText = encodeURIComponent(`Hello Engineer Sam, I want to order this motorcycle part:\nPart: ${p.name}\nPrice: ${p.price}\nCode: ${p.code}`);
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="h-40 bg-slate-900 relative overflow-hidden">
+                            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300/1e293b/f59e0b?text=Auto+Part'">
+                            <span class="absolute top-2 right-2 bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded">
+                                ${p.category}
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h4 class="font-bold text-white text-sm leading-snug">${p.name}</h4>
+                            <p class="text-xs text-slate-400">Ref Code: ${p.code}</p>
+                            <p class="text-base font-black text-amber-400">${p.price}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0 space-y-2">
+                        <a href="https://wa.me/256775735461?text=${waText}" target="_blank" class="w-full bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-slate-800">
+                            <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Order via WhatsApp
+                        </a>
+                        <button onclick="autofillReceipt('${p.name}', '${p.price}')" class="w-full bg-slate-800 hover:bg-slate-700 text-amber-400 py-1.5 rounded-lg text-[11px] font-semibold">
+                            Generate Receipt for this Part
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterParts(cat) {
+            currentPartCategory = cat;
+            document.querySelectorAll('.parts-cat-btn').forEach(btn => {
+                if((cat === 'all' && btn.innerText.includes('All')) || btn.innerText.includes(cat)){
+                    btn.className = "parts-cat-btn active bg-amber-500 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold transition-all";
+                } else {
+                    btn.className = "parts-cat-btn bg-slate-900 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all";
+                }
+            });
+            renderParts();
+        }
+
+        document.getElementById('partsSearch').addEventListener('input', renderParts);
+
+        // Announcements Feed Render
+        function renderAnnouncements() {
+            const feed = document.getElementById('announcementFeed');
+            feed.innerHTML = '';
+            announcementsList.forEach((ad, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 rounded-3xl overflow-hidden p-6 space-y-4 shadow-xl";
+                
+                let mediaHtml = '';
+                if(ad.image) {
+                    mediaHtml += `<div class="h-48 rounded-2xl overflow-hidden mb-3"><img src="${ad.image}" class="w-full h-full object-cover"></div>`;
+                }
+                if(ad.video) {
+                    mediaHtml += `<div class="aspect-video rounded-2xl overflow-hidden mb-3 bg-slate-900"><iframe src="${ad.video}" class="w-full h-full" allowfullscreen></iframe></div>`;
+                }
+                if(ad.voice) {
+                    mediaHtml += `
+                        <div class="bg-slate-900 border border-amber-500/30 p-3 rounded-2xl flex items-center space-x-3 my-3">
+                            <button onclick="playVoiceNote('${ad.title}')" class="w-10 h-10 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                            <div class="flex-1">
+                                <p class="text-xs font-bold text-white">${ad.voice}</p>
+                                <p class="text-[10px] text-slate-400">Audio Voice Note from Engineer Sam (0:45)</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2.5 py-1 rounded-full">
+                            <i class="fa-solid fa-bullhorn mr-1"></i> Workshop Notice
+                        </span>
+                        <span class="text-[10px] text-slate-500">${ad.time}</span>
+                    </div>
+                    <h3 class="text-lg font-black text-white">${ad.title}</h3>
+                    ${mediaHtml}
+                    <p class="text-xs text-slate-300 leading-relaxed">${ad.text}</p>
+                `;
+                feed.appendChild(card);
+            });
+        }
+
+        function playVoiceNote(title) {
+            alert(`Playing voice note message from Engineer Sam regarding: "${title}". (Audio simulator active: 0775735461)`);
+        }
+
+        // Q&A Interaction Board Logic
+        let questionsList = [
+            {
+                name: "Musinguzi Robert (Boda Stage Mabaale)",
+                model: "Bajaj Boxer BM150",
+                question: "Eng. Sam, my motorcycle makes a loud knocking sound when climbing hills. What could be wrong?",
+                answer: "Hello Robert! That is likely worn-out piston rings or timing chain slack. Bring it to the shop in Mabaale for a 15-minute free diagnostic check.",
+                time: "2 hours ago"
+            },
+            {
+                name: "Kizza Francis",
+                model: "Posho Mill Engine",
+                question: "Do you fabricate custom maize mill hoppers and repair water pump diesel engines?",
+                answer: "Yes Francis! We do complete welding, hopper fabrication, and diesel pump overhauls. Call me on 0775735461 for exact site visit details.",
+                time: "1 day ago"
+            }
+        ];
+
+        function renderQaFeed() {
+            const feed = document.getElementById('qaFeed');
+            feed.innerHTML = '';
+            questionsList.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-3";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-white text-sm">${q.name}</h4>
+                            <span class="text-[10px] bg-slate-900 text-amber-400 border border-slate-800 px-2 py-0.5 rounded font-semibold">${q.model}</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500">${q.time}</span>
+                    </div>
+                    <p class="text-xs text-slate-300 italic">"${q.question}"</p>
+                    ${q.answer ? `
+                        <div class="bg-slate-900/90 border border-amber-500/20 p-3 rounded-xl space-y-1">
+                            <p class="text-[11px] font-bold text-amber-400 flex items-center">
+                                <i class="fa-solid fa-user-gear mr-1"></i> Engineer Sam Reply:
+                            </p>
+                            <p class="text-xs text-slate-200">${q.answer}</p>
+                        </div>
+                    ` : `
+                        <p class="text-[10px] text-amber-500 font-bold"><i class="fa-solid fa-clock"></i> Pending Engineer Sam reply...</p>
+                    `}
+                    <div class="pt-1 flex justify-end">
+                        <a href="https://wa.me/256775735461?text=${encodeURIComponent(`Hello Eng Sam, regarding question from ${q.name}: ${q.question}`)}" target="_blank" class="text-[11px] text-emerald-400 font-bold hover:underline flex items-center gap-1">
+                            <i class="fa-brands fa-whatsapp"></i> Chat directly on WhatsApp
+                        </a>
+                    </div>
+                `;
+                feed.appendChild(card);
+            });
+        }
+
+        function postQuestion(e) {
+            e.preventDefault();
+            const name = document.getElementById('qaName').value;
+            const model = document.getElementById('qaModel').value || "General Vehicle/Machine";
+            const question = document.getElementById('qaQuestion').value;
+
+            questionsList.unshift({
+                name: name,
+                model: model,
+                question: question,
+                answer: null,
+                time: "Just now"
+            });
+
+            renderQaFeed();
+            document.getElementById('qaForm').reset();
+            alert("Your question has been posted to Engineer Sam's interaction board!");
+        }
+
+        // Receipt Card Generator Functions
+        function autofillReceipt(itemName, itemPrice) {
+            document.getElementById('rcptItem').value = itemName;
+            document.getElementById('rcptCost').value = itemPrice;
+            generateReceiptCard();
+            document.getElementById('receipt').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateReceiptCard() {
+            const customer = document.getElementById('rcptCustomer').value;
+            const model = document.getElementById('rcptModel').value;
+            const phone = document.getElementById('rcptPhone').value;
+            const item = document.getElementById('rcptItem').value;
+            const cost = document.getElementById('rcptCost').value;
+            const method = document.getElementById('rcptMethod').value;
+
+            document.getElementById('prCustomer').innerText = customer;
+            document.getElementById('prModel').innerText = model;
+            document.getElementById('prPhone').innerText = phone;
+            document.getElementById('prItem').innerText = item;
+            document.getElementById('prCost').innerText = cost;
+            document.getElementById('prTotal').innerText = cost;
+            document.getElementById('prMethod').innerText = `Paid via ${method} (0775735461)`;
+        }
+
+        // Visiting Workshop Booking
+        function submitBooking(e) {
+            e.preventDefault();
+            const name = document.getElementById('bookName').value;
+            const phone = document.getElementById('bookPhone').value;
+            const model = document.getElementById('bookModel').value;
+            const date = document.getElementById('bookDate').value;
+            const notes = document.getElementById('bookNotes').value;
+
+            appointmentsList.unshift({
+                name: name,
+                phone: phone,
+                model: model,
+                date: date,
+                notes: notes,
+                status: "Pending Sam's Approval"
+            });
+
+            localStorage.setItem('sam_appointments', JSON.stringify(appointmentsList));
+            document.getElementById('bookingForm').reset();
+            alert("Appointment request submitted successfully! Engineer Sam will review and approve your visiting slot.");
+        }
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        // Emergency SOS Modal Logic
+        function openSosModal() {
+            document.getElementById('sosModal').classList.remove('hidden');
+        }
+        function closeSosModal() {
+            document.getElementById('sosModal').classList.add('hidden');
+        }
+        function getSosData() {
+            return {
+                name: document.getElementById('sosName').value || "Motorist in Distress",
+                loc: document.getElementById('sosLocation').value || "Kagadi / Mabaale Area",
+                issue: document.getElementById('sosIssue').value || "Vehicle Breakdown / Repairs Needed"
+            };
+        }
+        function triggerWhatsAppSos() {
+            const d = getSosData();
+            const msg = `🚨 *EMERGENCY BREAKDOWN ALERT* 🚨\n\n*Driver/Contact:* ${d.name}\n*Location:* ${d.loc}\n*Issue Details:* ${d.issue}\n\nPlease send emergency mechanical support immediately!`;
+            window.open(`https://wa.me/256775735461?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+        function triggerEmailSos() {
+            const d = getSosData();
+            const subject = encodeURIComponent(`EMERGENCY SOS BREAKDOWN: ${d.loc}`);
+            const body = encodeURIComponent(`EMERGENCY BREAKDOWN ALERT\n\nDriver/Contact: ${d.name}\nLocation: ${d.loc}\nIssue: ${d.issue}\n\nPlease call back or respond on WhatsApp: 0775735461`);
+            window.location.href = `mailto:atuharwemark@gmail.com?subject=${subject}&body=${body}`;
+        }
+        function sendSosAlert(e) {
+            e.preventDefault();
+            triggerWhatsAppSos();
+        }
+
+        // ADMIN SECURITY & DASHBOARD LOGIC
+        let adminFailedAttempts = 0;
+        let isLockedOut = false;
+
+        function openAdminModal() {
+            if(isLockedOut) {
+                alert("Security Lockout Active: Too many failed login attempts. Please reload the page.");
+                return;
+            }
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+        }
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+        }
+
+        function verifyAdminPin(e) {
+            e.preventDefault();
+            if(isLockedOut) return;
+
+            const pin = document.getElementById('adminPinInput').value;
+            // Default admin password is 'sam2026'
+            if(pin === 'sam2026') {
+                adminFailedAttempts = 0;
+                document.getElementById('adminPinInput').value = '';
+                closeAdminLoginModal();
+                openAdminDashboard();
+            } else {
+                adminFailedAttempts++;
+                const err = document.getElementById('loginErrorMsg');
+                err.classList.remove('hidden');
+                if(adminFailedAttempts >= 3) {
+                    isLockedOut = true;
+                    err.innerText = "SECURITY LOCKOUT: Too many incorrect PIN attempts. Access blocked.";
+                } else {
+                    err.innerText = `Incorrect PIN! Attempt ${adminFailedAttempts} of 3. (Hint: sam2026)`;
+                }
+            }
+        }
+
+        function openAdminDashboard() {
+            document.getElementById('adminDashboardModal').classList.remove('hidden');
+            renderAdminPartsTable();
+            renderAdminCustomersTable();
+            renderAdminAppointmentsTable();
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('adminDashboardModal').classList.add('hidden');
+        }
+
+        function switchAdminTab(tabName) {
+            document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => {
+                b.className = "admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all";
+            });
+
+            if(tabName === 'prices') {
+                document.getElementById('adminTabPrices').classList.remove('hidden');
+                document.getElementById('tabBtnPrices').className = "admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition-all";
+                renderAdminPartsTable();
+            } else if(tabName === 'customers') {
+                document.getElementById('adminTabCustomers').classList.remove('hidden');
+                document.getElementById('tabBtnCustomers').className = "admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition-all";
+                renderAdminCustomersTable();
+            } else if(tabName === 'appointments') {
+                document.getElementById('adminTabAppointments').classList.remove('hidden');
+                document.getElementById('tabBtnAppointments').className = "admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition-all";
+                renderAdminAppointmentsTable();
+            } else if(tabName === 'ads') {
+                document.getElementById('adminTabAds').classList.remove('hidden');
+                document.getElementById('tabBtnAds').className = "admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 transition-all";
+            }
+        }
+
+        // Admin Table 1: Parts Price Editor
+        function renderAdminPartsTable() {
+            const tbody = document.getElementById('adminPartsTableBody');
+            tbody.innerHTML = '';
+            motorcycleParts.forEach((p, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-white">${p.name}</td>
+                    <td class="p-3 text-slate-300">${p.category}</td>
+                    <td class="p-3 text-slate-400">${p.code}</td>
+                    <td class="p-3 font-bold text-amber-400">
+                        <input type="text" id="edit_price_${idx}" value="${p.price}" class="bg-slate-950 border border-slate-700 px-2 py-1 rounded text-xs text-white w-28">
+                    </td>
+                    <td class="p-3 text-right space-x-2">
+                        <button onclick="savePartPrice(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-[11px] font-bold">Save</button>
+                        <button onclick="deletePart(${idx})" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded text-[11px] font-bold"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function savePartPrice(idx) {
+            const newPrice = document.getElementById(`edit_price_${idx}`).value;
+            motorcycleParts[idx].price = newPrice;
+            localStorage.setItem('sam_parts', JSON.stringify(motorcycleParts));
+            renderParts();
+            alert("Part price updated successfully!");
+        }
+
+        function deletePart(idx) {
+            if(confirm("Are you sure you want to delete this part from inventory?")) {
+                motorcycleParts.splice(idx, 1);
+                localStorage.setItem('sam_parts', JSON.stringify(motorcycleParts));
+                renderParts();
+                renderAdminPartsTable();
+            }
+        }
+
+        function addNewPartPrompt() {
+            const name = prompt("Enter Part Name:");
+            if(!name) return;
+            const category = prompt("Enter Category (e.g. Engine Parts, Tyres & Tubes):") || "Engine Parts";
+            const price = prompt("Enter Price in UGX (e.g. UGX 35,000):") || "UGX 30,000";
+            const code = prompt("Enter Ref Code:") || "SAM-PART";
+
+            motorcycleParts.push({
+                id: Date.now(),
+                name: name,
+                category: category,
+                price: price,
+                code: code,
+                img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=400&q=80"
+            });
+            localStorage.setItem('sam_parts', JSON.stringify(motorcycleParts));
+            renderParts();
+            renderAdminPartsTable();
+            alert("New part added successfully!");
+        }
+
+        // Admin Table 2: Customer & Payment DB
+        function renderAdminCustomersTable() {
+            const tbody = document.getElementById('adminCustomersTableBody');
+            tbody.innerHTML = '';
+            customerDatabase.forEach((c, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-white">${c.name}</td>
+                    <td class="p-3 text-slate-300">${c.phone}</td>
+                    <td class="p-3 text-slate-300">${c.service}</td>
+                    <td class="p-3 font-bold text-amber-400">${c.amount}</td>
+                    <td class="p-3 text-slate-300">${c.method}</td>
+                    <td class="p-3 font-bold text-emerald-400">${c.status}</td>
+                    <td class="p-3 text-right">
+                        <button onclick="deleteCustomerRecord(${idx})" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded text-[11px] font-bold"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function addNewCustomerRecord() {
+            const name = prompt("Customer Name:");
+            if(!name) return;
+            const phone = prompt("Phone Number:") || "0770000000";
+            const service = prompt("Service or Part Bought:") || "Engine Repair";
+            const amount = prompt("Amount in UGX:") || "UGX 50,000";
+            const method = prompt("Payment Method (MTN MoMo / Airtel Money / Cash):") || "MTN Mobile Money";
+
+            customerDatabase.unshift({
+                name: name,
+                phone: phone,
+                service: service,
+                amount: amount,
+                method: method,
+                status: "Verified & Paid"
+            });
+            localStorage.setItem('sam_customers', JSON.stringify(customerDatabase));
+            renderAdminCustomersTable();
+            alert("Customer payment record added successfully!");
+        }
+
+        function deleteCustomerRecord(idx) {
+            if(confirm("Delete this customer record?")) {
+                customerDatabase.splice(idx, 1);
+                localStorage.setItem('sam_customers', JSON.stringify(customerDatabase));
+                renderAdminCustomersTable();
+            }
+        }
+
+        // Admin Table 3: Visiting Workshop Approvals
+        function renderAdminAppointmentsTable() {
+            const tbody = document.getElementById('adminAppointmentsTableBody');
+            tbody.innerHTML = '';
+            appointmentsList.forEach((a, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-white">${a.name}</td>
+                    <td class="p-3 text-slate-300">${a.phone}</td>
+                    <td class="p-3 text-slate-300">${a.model}</td>
+                    <td class="p-3 text-amber-400 font-bold">${a.date}</td>
+                    <td class="p-3 text-slate-300 text-[11px]">${a.notes}</td>
+                    <td class="p-3 font-bold ${a.status === 'Approved' ? 'text-emerald-400' : 'text-amber-500'}">${a.status}</td>
+                    <td class="p-3 text-right space-x-1">
+                        <button onclick="toggleAppointmentStatus(${idx}, 'Approved')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded text-[10px] font-bold">Approve</button>
+                        <button onclick="toggleAppointmentStatus(${idx}, 'Rejected')" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-[10px] font-bold">Reject</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleAppointmentStatus(idx, status) {
+            appointmentsList[idx].status = status;
+            localStorage.setItem('sam_appointments', JSON.stringify(appointmentsList));
+            renderAdminAppointmentsTable();
+            alert(`Appointment marked as ${status} by Engineer Sam.`);
+        }
+
+        // Admin Tab 4: Post Announcement
+        function postNewAnnouncement(e) {
+            e.preventDefault();
+            const title = document.getElementById('adTitle').value;
+            const image = document.getElementById('adImage').value;
+            const video = document.getElementById('adVideo').value;
+            const voice = document.getElementById('adVoice').value;
+            const text = document.getElementById('adText').value;
+
+            announcementsList.unshift({
+                title: title,
+                text: text,
+                image: image,
+                video: video,
+                voice: voice,
+                time: "Just now"
+            });
+
+            localStorage.setItem('sam_ads', JSON.stringify(announcementsList));
+            renderAnnouncements();
+            document.getElementById('newAdForm').reset();
+            alert("New announcement published successfully to the live website!");
+            switchAdminTab('prices');
+        }
+
+        // Window Init
+        window.onload = function() {
+            renderParts();
+            renderQaFeed();
+            renderAnnouncements();
+        };
+    </script>
+</body>
+</html>

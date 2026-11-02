@@ -1,0 +1,562 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const EduReviseProUganda());
+}
+
+class EduReviseProUganda extends StatelessWidget {
+  const EduReviseProUganda({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'EduRevise Uganda - By Atuhairwe Mark',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0F172A), // Slate Navy
+          primary: const Color(0xFF1E3A8A),   // Deep Ugandan Blue
+          secondary: const Color(0xFFD97706), // National Gold/Amber
+          surface: Colors.white,
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: Color(0xFF1E3A8A),
+          foregroundColor: Colors.white,
+          centerTitle: false,
+        ),
+      ),
+      home: const MasterRootNavigation(),
+    );
+  }
+}
+
+// ============================================================================
+// DATA MODELS
+// ============================================================================
+
+class MockPaper {
+  final String title;
+  final String year;
+  final String body; // UNEB, WAKISSHA, KASSHA, etc.
+  final List<ExamQuestion> questions;
+
+  MockPaper({
+    required this.title,
+    required this.year,
+    required this.body,
+    required this.questions,
+  });
+}
+
+class ExamQuestion {
+  final int number;
+  final String text;
+  final int marks;
+  final String markingGuide;
+
+  ExamQuestion({
+    required this.number,
+    required this.text,
+    required this.marks,
+    required this.markingGuide,
+  });
+}
+
+class Subject {
+  final String name;
+  final String code;
+  final IconData icon;
+  final List<MockPaper> papers;
+
+  Subject({
+    required this.name,
+    required this.code,
+    required this.icon,
+    required this.papers,
+  });
+}
+
+class ExamUpdate {
+  final String board; // UNEB, WAKISSHA, etc.
+  final String title;
+  final String date;
+  final String summary;
+  final bool isUrgent;
+
+  ExamUpdate({
+    required this.board,
+    required this.title,
+    required this.date,
+    required this.summary,
+    this.isUrgent = false,
+  });
+}
+
+class ChatMessage {
+  final String text;
+  final bool isUser;
+  final String time;
+
+  ChatMessage({required this.text, required this.isUser, required this.time});
+}
+
+// ============================================================================
+// MOCK DATA (UGANDA SPECIFIC)
+// ============================================================================
+
+final List<Subject> oLevelSubjects = [
+  Subject(
+    name: 'Mathematics',
+    code: 'UCE 456',
+    icon: Icons.calculate,
+    papers: [
+      MockPaper(
+        title: 'Paper 1 (Section A & B)',
+        year: '2025/2026 Mock',
+        body: 'WAKISSHA Joint Examinations',
+        questions: [
+          ExamQuestion(
+            number: 1,
+            text: 'Solve the simultaneous equations using matrix method:\n2x + 3y = 12\n5x - y = 13',
+            marks: 4,
+            markingGuide:
+                '• Writing in matrix form: (2 3 | 5 -1)(x | y) = (12 | 13) [M1]\n'
+                '• Determinant = (2)(-1) - (3)(5) = -2 - 15 = -17        [M1]\n'
+                '• Inverse matrix evaluation                             [M1]\n'
+                '• x = 3, y = 2                                          [A1]\n'
+                'Total: 4 Marks',
+          ),
+          ExamQuestion(
+            number: 2,
+            text: 'A bag contains 5 red balls and 4 blue balls. Two balls are picked at random without replacement. Find the probability that both balls are of the same color.',
+            marks: 4,
+            markingGuide:
+                '• P(Red and Red) = (5/9) * (4/8) = 20/72                [M1]\n'
+                '• P(Blue and Blue) = (4/9) * (3/8) = 12/72             [M1]\n'
+                '• Sum = (20/72) + (12/72) = 32/72                      [M1]\n'
+                '• Simplified answer = 4/9                              [A1]\n'
+                'Total: 4 Marks',
+          ),
+        ],
+      ),
+    ],
+  ),
+  Subject(
+    name: 'Physics',
+    code: 'UCE 535',
+    icon: Icons.electric_bolt,
+    papers: [
+      MockPaper(
+        title: 'Paper 1 (Theory & Practical Interpretation)',
+        year: '2025/2026 Mock',
+        body: 'KASSHA Joint Central Mock',
+        questions: [
+          ExamQuestion(
+            number: 1,
+            text: 'Explain why a transformer does not operate on a direct current (D.C) supply.',
+            marks: 3,
+            markingGuide:
+                '• DC produces a constant/steady magnetic flux in the core. [1 Mark]\n'
+                '• Faraday\'s law requires changing magnetic flux to induce emf. [1 Mark]\n'
+                '• Hence, no induced voltage occurs across the secondary coil. [1 Mark]',
+          ),
+        ],
+      ),
+    ],
+  ),
+  Subject(name: 'Biology', code: 'UCE 553', icon: Icons.biotech, papers: []),
+  Subject(name: 'Chemistry', code: 'UCE 545', icon: Icons.science, papers: []),
+  Subject(name: 'English Language', code: 'UCE 112', icon: Icons.menu_book, papers: []),
+  Subject(name: 'Geography', code: 'UCE 273', icon: Icons.public, papers: []),
+  Subject(name: 'History & Political Education', code: 'UCE 241', icon: Icons.history_edu, papers: []),
+  Subject(name: 'Agriculture', code: 'UCE 527', icon: Icons.agriculture, papers: []),
+  Subject(name: 'Commerce & Entrepreneurship', code: 'UCE 800', icon: Icons.storefront, papers: []),
+  Subject(name: 'Christian Religious Education', code: 'UCE 223', icon: Icons.auto_stories, papers: []),
+  Subject(name: 'ICT / Computer Studies', code: 'UCE 840', icon: Icons.computer, papers: []),
+];
+
+final List<Subject> aLevelSubjects = [
+  Subject(
+    name: 'General Paper (GP)',
+    code: 'UACE S101',
+    icon: Icons.edit_note,
+    papers: [
+      MockPaper(
+        title: 'GP Compulsory Paper',
+        year: '2025 Mock',
+        body: 'Kampala Joint Teachers Association',
+        questions: [
+          ExamQuestion(
+            number: 1,
+            text: 'Examine the measures Uganda can implement to curb environmental degradation caused by wetland encroachment.',
+            marks: 50,
+            markingGuide:
+                '• Clear definition of wetland encroachment & baseline factors [05 Marks]\n'
+                '• Points: Demarcation of wetland borders, strict NEMA enforcement, alternative livelihood programs, tree restoration [20 Marks]\n'
+                '• Challenges faced: political interference, high population pressure [15 Marks]\n'
+                '• Coherent synthesis, essay structure, and standard grammar [10 Marks]',
+          ),
+        ],
+      ),
+    ],
+  ),
+  Subject(
+    name: 'Pure Mathematics',
+    code: 'UACE P425/1',
+    icon: Icons.square_foot,
+    papers: [
+      MockPaper(
+        title: 'Paper 1 (Pure Mathematics)',
+        year: '2025 Mock',
+        body: 'WAKISSHA Joint Mock',
+        questions: [
+          ExamQuestion(
+            number: 1,
+            text: 'Differentiate with respect to x: y = ln(sec x + tan x).',
+            marks: 5,
+            markingGuide:
+                '• dy/dx = 1 / (sec x + tan x) * d/dx(sec x + tan x)      [M1]\n'
+                '• d/dx(sec x) = sec x tan x                             [B1]\n'
+                '• d/dx(tan x) = sec² x                                   [B1]\n'
+                '• dy/dx = [sec x (tan x + sec x)] / (sec x + tan x)     [M1]\n'
+                '• dy/dx = sec x                                         [A1]\n'
+                'Total: 5 Marks',
+          ),
+        ],
+      ),
+    ],
+  ),
+  Subject(name: 'Subsidiary ICT / Sub-Maths', code: 'UACE S475', icon: Icons.devices, papers: []),
+  Subject(name: 'Physics', code: 'UACE P510', icon: Icons.bolt, papers: []),
+  Subject(name: 'Chemistry', code: 'UACE P525', icon: Icons.bubble_chart, papers: []),
+  Subject(name: 'Biology', code: 'UACE P530', icon: Icons.coronavirus, papers: []),
+  Subject(name: 'Economics', code: 'UACE P220', icon: Icons.trending_up, papers: []),
+  Subject(name: 'Geography', code: 'UACE P250', icon: Icons.terrain, papers: []),
+  Subject(name: 'History', code: 'UACE P210', icon: Icons.account_balance, papers: []),
+  Subject(name: 'Literature in English', code: 'UACE P310', icon: Icons.local_library, papers: []),
+];
+
+final List<ExamUpdate> examUpdatesList = [
+  ExamUpdate(
+    board: 'UNEB OFFICIAL',
+    title: 'UNEB Releases UCE & UACE Registration Portals and Candidature Verification',
+    date: 'Official Circular',
+    summary:
+        'All Headteachers and UNEB Centre Supervisors are reminded to verify candidate bio-data, continuous assessment scores (NLSC), and national identification numbers.',
+    isUrgent: true,
+  ),
+  ExamUpdate(
+    board: 'WAKISSHA',
+    title: '2025/2026 Joint Mock Examination Timetable and Marking Scheme Release',
+    date: 'Joint Mock Desk',
+    summary:
+        'Wakiso Secondary School Headteachers Association issues standardized guidelines for science practicals and computerized humanities marking guides.',
+    isUrgent: false,
+  ),
+  ExamUpdate(
+    board: 'KASSHA',
+    title: 'Kampala Secondary Schools Joint Seminar on Competency-Based Assessment',
+    date: 'Academic Committee',
+    summary:
+        'Senior 4 candidate seminar material for scenario-based assessment in new curriculum Chemistry and Biology is now released.',
+    isUrgent: false,
+  ),
+];
+
+// ============================================================================
+// ROOT NAVIGATION (TABS: PAPERS, BRIAN MARK AI, UNEB UPDATES, HELP)
+// ============================================================================
+
+class MasterRootNavigation extends StatefulWidget {
+  const MasterRootNavigation({super.key});
+
+  @override
+  State<MasterRootNavigation> createState() => _MasterRootNavigationState();
+}
+
+class _MasterRootNavigationState extends State<MasterRootNavigation> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = const [
+    RevisionVaultScreen(),
+    BrianMarkAiScreen(),
+    ExamUpdatesScreen(),
+    HelpAndCreatorScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_currentIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) => setState(() => _currentIndex = index),
+        indicatorColor: const Color(0xFFD97706).withAlpha(50),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.school_outlined),
+            selectedIcon: Icon(Icons.school, color: Color(0xFF1E3A8A)),
+            label: 'Mocks & Vault',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.psychology_outlined),
+            selectedIcon: Icon(Icons.psychology, color: Color(0xFF1E3A8A)),
+            label: 'Brian Mark AI',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.campaign_outlined),
+            selectedIcon: Icon(Icons.campaign, color: Color(0xFF1E3A8A)),
+            label: 'UNEB Hub',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.support_agent_outlined),
+            selectedIcon: Icon(Icons.support_agent, color: Color(0xFF1E3A8A)),
+            label: 'Help & Admin',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// TAB 1: MOCKS & VAULT SCREEN (O & A LEVEL)
+// ============================================================================
+
+class RevisionVaultScreen extends StatelessWidget {
+  const RevisionVaultScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'EduRevise Uganda',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              Text(
+                'Executive System by Atuhairwe Mark',
+                style: TextStyle(fontSize: 11, color: Color(0xFFFBBF24)),
+              ),
+            ],
+          ),
+          bottom: const TabBar(
+            indicatorColor: Color(0xFFFBBF24),
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.white70,
+            indicatorWeight: 3.5,
+            tabs: [
+              Tab(text: 'O-Level (UCE)', icon: Icon(Icons.auto_stories, size: 20)),
+              Tab(text: 'A-Level (UACE)', icon: Icon(Icons.workspace_premium, size: 20)),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            SubjectGridListView(subjects: oLevelSubjects, levelName: 'O-Level (UCE)'),
+            SubjectGridListView(subjects: aLevelSubjects, levelName: 'A-Level (UACE)'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SubjectGridListView extends StatelessWidget {
+  final List<Subject> subjects;
+  final String levelName;
+
+  const SubjectGridListView({super.key, required this.subjects, required this.levelName});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      itemCount: subjects.length,
+      itemBuilder: (context, index) {
+        final sub = subjects[index];
+        final paperCount = sub.papers.length;
+
+        return Card(
+          elevation: 1,
+          margin: const EdgeInsets.symmetric(vertical: 6),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: const Color(0xFF1E3A8A).withAlpha(25),
+              child: Icon(sub.icon, color: const Color(0xFF1E3A8A)),
+            ),
+            title: Text(sub.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text('${sub.code} • ${paperCount == 0 ? "Papers in compilation" : "$paperCount Mock Paper Set(s)"}'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 15, color: Colors.grey),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubjectMocksScreen(subject: sub, levelName: levelName),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SubjectMocksScreen extends StatelessWidget {
+  final Subject subject;
+  final String levelName;
+
+  const SubjectMocksScreen({super.key, required this.subject, required this.levelName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${subject.name} - $levelName'),
+      ),
+      body: subject.papers.isEmpty
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.folder_open, size: 64, color: Colors.grey[400]),
+                    const SizedBox(height: 12),
+                    Text(
+                      'No Uploaded Papers for ${subject.name} Yet',
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Atuhairwe Mark\'s curriculum team is currently digitizing the marking rubrics for this subject.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(14),
+              itemCount: subject.papers.length,
+              itemBuilder: (context, index) {
+                final paper = subject.papers[index];
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(14),
+                    title: Text(paper.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 4),
+                        Text('Examining Agency: ${paper.body}'),
+                        Text('Series: ${paper.year} • Standard Step-by-Step Marking Guide'),
+                      ],
+                    ),
+                    trailing: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1E3A8A),
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaperViewerScreen(paper: paper),
+                          ),
+                        );
+                      },
+                      child: const Text('Open'),
+                    ),
+                  ),
+                );
+              },
+            ),
+    );
+  }
+}
+
+class PaperViewerScreen extends StatelessWidget {
+  final MockPaper paper;
+  const PaperViewerScreen({super.key, required this.paper});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(paper.title),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Center(
+              child: Chip(
+                label: Text(paper.body, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                backgroundColor: const Color(0xFFD97706),
+              ),
+            ),
+          )
+        ],
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(14),
+        itemCount: paper.questions.length,
+        itemBuilder: (context, index) {
+          final q = paper.questions[index];
+          return QuestionGuideCard(question: q);
+        },
+      ),
+    );
+  }
+}
+
+class QuestionGuideCard extends StatefulWidget {
+  final ExamQuestion question;
+  const QuestionGuideCard({super.key, required this.question});
+
+  @override
+  State<QuestionGuideCard> createState() => _QuestionGuideCardState();
+}
+
+class _QuestionGuideCardState extends State<QuestionGuideCard> {
+  bool _revealed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Question ${widget.question.number}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(6)),
+                  child: Text('[${widget.question.marks} Marks]', style: const TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
+            const Divider(height: 20),
+            Text(widget.question.text, style: const TextStyle(fontSize: 15, height: 1.4)),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: _revealed ? Colors.red : Colors.green[800],
+                side: Bor

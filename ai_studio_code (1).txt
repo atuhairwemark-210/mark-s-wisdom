@@ -1,0 +1,486 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const UgRevisionApp());
+}
+
+class UgRevisionApp extends StatelessWidget {
+  const UgRevisionApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'EduRevise: O & A Level',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1E3A8A), // Deep Navy
+          primary: const Color(0xFF1E3A8A),
+          secondary: const Color(0xFFD97706), // Amber
+        ),
+        useMaterial3: true,
+      ),
+      home: const MainNavigationScreen(),
+    );
+  }
+}
+
+// ---------------- DATA MODELS ----------------
+class MockPaper {
+  final String title;
+  final String year;
+  final String body; // e.g., Wakiso Joint, Kampala Teachers, Mukono Mock
+  final List<ExamQuestion> questions;
+
+  MockPaper({
+    required this.title,
+    required this.year,
+    required this.body,
+    required this.questions,
+  });
+}
+
+class ExamQuestion {
+  final int questionNumber;
+  final String questionText;
+  final int marks;
+  final String markingGuide; // Step-by-step points/rubric
+
+  ExamQuestion({
+    required this.questionNumber,
+    required this.questionText,
+    required this.marks,
+    required this.markingGuide,
+  });
+}
+
+class Subject {
+  final String name;
+  final IconData icon;
+  final String code;
+  final List<MockPaper> mockPapers;
+
+  Subject({
+    required this.name,
+    required this.icon,
+    required this.code,
+    required this.mockPapers,
+  });
+}
+
+// ---------------- CURRICULUM DATA ----------------
+
+final List<Subject> oLevelSubjects = [
+  Subject(
+    name: 'Mathematics',
+    icon: Icons.calculate,
+    code: 'UCE 456',
+    mockPapers: [
+      MockPaper(
+        title: 'Paper 1 (Section A & B)',
+        year: '2024 Mock',
+        body: 'Wakiso Joint Mock',
+        questions: [
+          ExamQuestion(
+            questionNumber: 1,
+            questionText: 'Solve for x in the equation: 2x² - 5x + 3 = 0',
+            marks: 4,
+            markingGuide:
+                '• Factorization: (2x - 3)(x - 1) = 0   [M1]\n'
+                '• 2x - 3 = 0  =>  x = 3/2 or 1.5       [A1]\n'
+                '• x - 1 = 0   =>  x = 1                 [A1]\n'
+                '• Stating both roots clearly            [B1]\n'
+                'Total: 4 Marks',
+          ),
+          ExamQuestion(
+            questionNumber: 2,
+            questionText: 'Find the equation of the line passing through (2, 3) with gradient 4.',
+            marks: 3,
+            markingGuide:
+                '• Formula: y - y1 = m(x - x1)          [M1]\n'
+                '• y - 3 = 4(x - 2)                     [M1]\n'
+                '• y = 4x - 5 (or 4x - y - 5 = 0)       [A1]\n'
+                'Total: 3 Marks',
+          ),
+        ],
+      ),
+      MockPaper(title: 'Paper 2 (Pure & Applied)', year: '2023 Mock', body: 'Kampala Mock Joint', questions: []),
+    ],
+  ),
+  Subject(
+    name: 'Physics',
+    icon: Icons.electric_bolt,
+    code: 'UCE 535',
+    mockPapers: [
+      MockPaper(
+        title: 'Paper 1 (Theory & Structure)',
+        year: '2024 Mock',
+        body: 'Central Joint Mock',
+        questions: [
+          ExamQuestion(
+            questionNumber: 1,
+            questionText: 'State Newton\'s Second Law of Motion and define the Newton.',
+            marks: 4,
+            markingGuide:
+                '• State Law: The rate of change of momentum of a body is directly proportional to the applied force and takes place in the direction of the force. [2 Marks]\n'
+                '• Definition of Newton: A Newton is the force that gives a mass of 1 kg an acceleration of 1 m/s². [2 Marks]',
+          ),
+        ],
+      ),
+    ],
+  ),
+  Subject(name: 'Biology', icon: Icons.biotech, code: 'UCE 553', mockPapers: []),
+  Subject(name: 'Chemistry', icon: Icons.science, code: 'UCE 545', mockPapers: []),
+  Subject(name: 'English Language', icon: Icons.menu_book, code: 'UCE 112', mockPapers: []),
+  Subject(name: 'Geography', icon: Icons.public, code: 'UCE 273', mockPapers: []),
+  Subject(name: 'History & Political Ed.', icon: Icons.history_edu, code: 'UCE 241', mockPapers: []),
+  Subject(name: 'Commerce & Entrepreneurship', icon: Icons.storefront, code: 'UCE 800', mockPapers: []),
+  Subject(name: 'Christian Religious Ed. (CRE)', icon: Icons.auto_stories, code: 'UCE 223', mockPapers: []),
+  Subject(name: 'Islamic Religious Ed. (IRE)', icon: Icons.mosque, code: 'UCE 225', mockPapers: []),
+  Subject(name: 'Agriculture', icon: Icons.agriculture, code: 'UCE 527', mockPapers: []),
+  Subject(name: 'Computer Studies / ICT', icon: Icons.computer, code: 'UCE 840', mockPapers: []),
+  Subject(name: 'Literature in English', icon: Icons.library_books, code: 'UCE 208', mockPapers: []),
+];
+
+final List<Subject> aLevelSubjects = [
+  Subject(
+    name: 'General Paper (GP)',
+    icon: Icons.edit_note,
+    code: 'UACE S101',
+    mockPapers: [
+      MockPaper(
+        title: 'Section A & B Mock Paper',
+        year: '2024 Mock',
+        body: 'Uganda Secondary Schools Joint',
+        questions: [
+          ExamQuestion(
+            questionNumber: 1,
+            questionText: 'Assess the impact of artificial intelligence on employment opportunities in developing nations.',
+            marks: 50,
+            markingGuide:
+                '• Definition and introduction to AI [05 Marks]\n'
+                '• Positive impacts: automation of risky tasks, creation of tech roles, boosted agricultural yields [15 Marks]\n'
+                '• Negative impacts: job displacement, digital divide, skill mismatch [15 Marks]\n'
+                '• Mitigation strategies and recommendation [10 Marks]\n'
+                '• Grammar, sentence flow and essay structure [05 Marks]',
+          ),
+        ],
+      ),
+    ],
+  ),
+  Subject(
+    name: 'Pure Mathematics',
+    icon: Icons.square_foot,
+    code: 'UACE P425/1',
+    mockPapers: [
+      MockPaper(
+        title: 'Paper 1 (Pure Mathematics)',
+        year: '2024 Mock',
+        body: 'Wakiso Joint Mock',
+        questions: [
+          ExamQuestion(
+            questionNumber: 1,
+            questionText: 'Evaluate the definite integral: ∫ from 0 to π/2 of (sin x cos x) dx.',
+            marks: 5,
+            markingGuide:
+                '• Use substitution: let u = sin x => du = cos x dx   [M1]\n'
+                '• When x = 0, u = 0; when x = π/2, u = 1             [B1]\n'
+                '• Integral becomes: ∫ u du from 0 to 1 = [u²/2]       [M1]\n'
+                '• Evaluation: (1²/2) - (0²/2) = 1/2                  [A1]\n'
+                'Total: 5 Marks',
+          ),
+        ],
+      ),
+    ],
+  ),
+  Subject(name: 'Subsidiary Mathematics / Sub-ICT', icon: Icons.calculate_outlined, code: 'UACE S475', mockPapers: []),
+  Subject(name: 'Physics', icon: Icons.bolt, code: 'UACE P510', mockPapers: []),
+  Subject(name: 'Chemistry', icon: Icons.science_outlined, code: 'UACE P525', mockPapers: []),
+  Subject(name: 'Biology', icon: Icons.coronavirus, code: 'UACE P530', mockPapers: []),
+  Subject(name: 'Economics', icon: Icons.trending_up, code: 'UACE P220', mockPapers: []),
+  Subject(name: 'Geography', icon: Icons.map, code: 'UACE P250', mockPapers: []),
+  Subject(name: 'History', icon: Icons.account_balance, code: 'UACE P210', mockPapers: []),
+  Subject(name: 'Divinity / C.R.K', icon: Icons.book, code: 'UACE P245', mockPapers: []),
+  Subject(name: 'Literature in English', icon: Icons.local_library, code: 'UACE P310', mockPapers: []),
+  Subject(name: 'Entrepreneurship Education', icon: Icons.business_center, code: 'UACE P230', mockPapers: []),
+  Subject(name: 'Principal Agriculture', icon: Icons.grass, code: 'UACE P515', mockPapers: []),
+];
+
+// ---------------- SCREEN 1: TABBED HOME SCREEN ----------------
+class MainNavigationScreen extends StatelessWidget {
+  const MainNavigationScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'National Mocks & Revision',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          bottom: const TabBar(
+            indicatorWeight: 4,
+            labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            tabs: [
+              Tab(text: 'O-Level (UCE)', icon: Icon(Icons.school)),
+              Tab(text: 'A-Level (UACE)', icon: Icon(Icons.workspace_premium)),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            SubjectListView(subjects: oLevelSubjects, levelName: 'O-Level'),
+            SubjectListView(subjects: aLevelSubjects, levelName: 'A-Level'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------- COMPONENT: SUBJECT LIST ----------------
+class SubjectListView extends StatelessWidget {
+  final List<Subject> subjects;
+  final String levelName;
+
+  const SubjectListView({super.key, required this.subjects, required this.levelName});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      itemCount: subjects.length,
+      itemBuilder: (context, index) {
+        final subject = subjects[index];
+        final paperCount = subject.mockPapers.length;
+
+        return Card(
+          elevation: 1.5,
+          margin: const EdgeInsets.symmetric(vertical: 6),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: Icon(subject.icon, color: Theme.of(context).colorScheme.primary),
+            ),
+            title: Text(subject.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text('${subject.code} • ${paperCount == 0 ? "Papers coming soon" : "$paperCount Mock Paper(s)"}'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SubjectMocksScreen(subject: subject, levelName: levelName),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ---------------- SCREEN 2: MOCKS LIST FOR A SUBJECT ----------------
+class SubjectMocksScreen extends StatelessWidget {
+  final Subject subject;
+  final String levelName;
+
+  const SubjectMocksScreen({super.key, required this.subject, required this.levelName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${subject.name} ($levelName)'),
+      ),
+      body: subject.mockPapers.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.folder_open, size: 60, color: Colors.grey[400]),
+                  const SizedBox(height: 12),
+                  Text('No Mock Papers added for ${subject.name} yet.\nCheck back soon!',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16, color: Colors.grey)),
+                ],
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(14),
+              itemCount: subject.mockPapers.length,
+              itemBuilder: (context, index) {
+                final mock = subject.mockPapers[index];
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(12),
+                    title: Text(mock.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 4),
+                        Text('Agency: ${mock.body}'),
+                        Text('Year: ${mock.year} • ${mock.questions.length} Question(s) with Guides'),
+                      ],
+                    ),
+                    trailing: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MockPaperViewerScreen(mockPaper: mock),
+                          ),
+                        );
+                      },
+                      child: const Text('Open'),
+                    ),
+                  ),
+                );
+              },
+            ),
+    );
+  }
+}
+
+// ---------------- SCREEN 3: MOCK PAPER & MARKING GUIDE VIEWER ----------------
+class MockPaperViewerScreen extends StatelessWidget {
+  final MockPaper mockPaper;
+  const MockPaperViewerScreen({super.key, required this.mockPaper});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(mockPaper.title),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Chip(
+              label: Text(mockPaper.year, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+            ),
+          )
+        ],
+      ),
+      body: mockPaper.questions.isEmpty
+          ? const Center(child: Text('Questions uploading...'))
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: mockPaper.questions.length,
+              itemBuilder: (context, index) {
+                final q = mockPaper.questions[index];
+                return QuestionWithGuideCard(question: q);
+              },
+            ),
+    );
+  }
+}
+
+// ---------------- WIDGET: QUESTION + TOGGLEABLE MARKING GUIDE ----------------
+class QuestionWithGuideCard extends StatefulWidget {
+  final ExamQuestion question;
+  const QuestionWithGuideCard({super.key, required this.question});
+
+  @override
+  State<QuestionWithGuideCard> createState() => _QuestionWithGuideCardState();
+}
+
+class _QuestionWithGuideCardState extends State<QuestionWithGuideCard> {
+  bool _showGuide = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Question ${widget.question.questionNumber}',
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    '[${widget.question.marks} Marks]',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            const Divider(height: 20),
+            Text(
+              widget.question.questionText,
+              style: const TextStyle(fontSize: 16, height: 1.4),
+            ),
+            const SizedBox(height: 16),
+
+            // Toggle Marking Guide Button
+            OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: _showGuide ? Colors.red : Colors.green[800],
+                side: BorderSide(color: _showGuide ? Colors.red : Colors.green),
+              ),
+              onPressed: () {
+                setState(() {
+                  _showGuide = !_showGuide;
+                });
+              },
+              icon: Icon(_showGuide ? Icons.visibility_off : Icons.check_circle_outline),
+              label: Text(_showGuide ? 'Hide Marking Guide' : 'Reveal Marking Guide & Answers'),
+            ),
+
+            // The Marking Guide section
+            if (_showGuide) ...[
+              const SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: Colors.green.withAlpha(20),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.green.shade300),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(Icons.rule, size: 20, color: Colors.green),
+                        SizedBox(width: 8),
+                        Text(
+                          'Official Marking Guide / Scoring Rubric',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.question.markingGuide,
+                      style: const TextStyle(fontSize: 14.5, height: 1.5, fontFamily: 'monospace'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
